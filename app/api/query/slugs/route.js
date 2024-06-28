@@ -1,6 +1,5 @@
 import { Pool } from "pg";
 
-import { Pool } from "pg";
 
 const db = new Pool({
   host: process.env.DATABASE_HOST,

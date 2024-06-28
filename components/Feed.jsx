@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import SkeletonCard from "./subComponents/Skeletoncard";
+import SkeletonCard from "./subComponents/Skeletoncard.jsx";
 
 
 // Import the SkeletonCard component
