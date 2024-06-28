@@ -23,7 +23,7 @@ function formatDate(timestamp) {
 // using the `params` returned by `generateStaticParams`
 async function getData(slug) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/query/${slug}`, {
+  const res = await fetch(`/api/query/${slug}`, {
     next: { revalidate: 3600 },
   });
 
