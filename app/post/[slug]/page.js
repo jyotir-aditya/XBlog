@@ -6,12 +6,25 @@ import React from "react";
 
 export async function generateStaticParams() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/query/slugs`);
-  const posts = await response.json();
+  let posts = [];
+
+  try {
+    const response = await fetch(`${apiUrl}/api/query/slugs`);
+    if (!response.ok) {
+      console.error(`Error fetching slugs: ${response.statusText}`);
+      return [];
+    }
+    posts = await response.json();
+  } catch (error) {
+    console.error(`Error fetching slugs: ${error.message}`);
+    return [];
+  }
+
   return posts.map((post) => ({
     slug: post.slug,
   }));
 }
+
 function formatDate(timestamp) {
   const date = new Date(timestamp);
   const options = { year: "numeric", month: "long", day: "numeric" };
