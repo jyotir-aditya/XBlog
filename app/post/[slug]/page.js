@@ -5,12 +5,13 @@ import React from "react";
 
 
 export async function generateStaticParams() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/query/slugs`);
-  const posts = await response.json();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // const response = await fetch(`${apiUrl}/api/query/slugs`);
+  // const posts = await response.json();
+  // return posts.map((post) => ({
+  //   slug: post.slug,
+  // }));
+  return [];
 }
 function formatDate(timestamp) {
   const date = new Date(timestamp);
