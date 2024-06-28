@@ -9,27 +9,6 @@ import Search from "./Search";
 const Homepage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const { data: session, status } = useSession();
-  // const [scrollY, setScrollY] = useState(0);
-  // const [prevScrollY, setPrevScrollY] = useState(0);
-  // const [offset, setOffset] = useState(0);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const currentScrollY = window.scrollY;
-  //     const scrollDiff = currentScrollY - prevScrollY;
-
-  //     setOffset((prevOffset) => {
-  //       const newOffset = prevOffset - scrollDiff;
-  //       return Math.max(Math.min(newOffset, 0), -60); // Limit offset between -60 and 0
-  //     });
-
-  //     setPrevScrollY(currentScrollY);
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [prevScrollY]);
 
   return (
     <div>
@@ -46,14 +25,15 @@ const Homepage = () => {
               <Feed selectedCategory={selectedCategory} />
             </div>
           </div>
-          <div className="Structure w-[30vw] mt-[7.8vh] ">
+          <div className="Structure border-l w-[30vw] mt-[7.8vh] ">
             {/* <div
               className="mb-5 fixed z-50 w-[30vw] "
               style={{ transform: `translateY(${offset}px)`}}
             > */}
-              <Search />
+            <div className="pl-10"><Search /></div>
+              
             {/* </div> */}
-            <div className="RightSection sticky  top-10 mt-[9vh] h-[80vh]  w-[25vw] ml-10">
+            <div className="RightSection sticky top-0 mt-[9vh] h-fit  w-[25vw] ml-10">
               <RightSection />
             </div>
           </div>

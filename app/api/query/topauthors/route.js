@@ -13,10 +13,9 @@ const db = new Pool({
 });
 
 export async function GET(request) {
-  let client;
-
+const client = await db.connect(); 
   try {
-    client = await db.connect();  // Get a client from the pool
+     // Get a client from the pool
     const data = await client.query("SELECT * FROM xusers;");
     console.log("in server", data.rows);
 
@@ -31,8 +30,6 @@ export async function GET(request) {
 
     return new Response("Internal Server Error", { status: 500 });
   } finally {
-    if (client) {
-      client.release();  // Ensure the client is released back to the pool
-    }
+      client.release(true);  // Ensure the client is released back to the pool
   }
 }

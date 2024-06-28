@@ -31,17 +31,24 @@ const UserProfile = ({ username }) => {
       {Profile && (
         <div className="flex">
           <div className="OutertStructure w-[50vw] mt-[10vh] min-h-[100vh]">
-            <div className="bg-slate-300 relative rounded-lg h-[30vh] w-[50vw]">
+            <div className="bg-slate-300 relative rounded-lg h-[30vh] w-[50vw] ">
+              {Profile.coverimageurl&&<Image
+                src={Profile.coverimageurl}
+                layout="fill"
+                className="rounded-lg"
+                alt="coverpic"
+              />}
+              
               <Image
                 src={Profile.image}
                 height={150}
                 width={150}
                 alt="user picture"
-                className="rounded-full absolute ml-[2vw] bottom-0 translate-y-[50%]"
+                className="rounded-full absolute ml-[2vw] bottom-0 translate-y-[50%] border-2 border-white"
               />
             </div>
             <div className="UserDetails ml-[2vw]">
-              <h1 className="mt-[11vh] font-semibold font-robo text-[2.5vw]">
+              <h1 className="mt-[11vh] font-semibold font-slab text-[2.5vw]">
                 {Profile.name}
               </h1>
               <h2 className="text-xl font-medium text-gray-500">
@@ -52,10 +59,12 @@ const UserProfile = ({ username }) => {
               <ProfileFeed userId={Profile.id} />
             </div>
           </div>
-          <div className=" w-[30vw] mt-[7.5vh] ml-[4vw]">
-            <div className="z-50"><Search/></div>
-            
-            <div className="sticky w-[25vw] ml-10 mt-[8vh] top-10">
+          <div className=" w-[30vw] border-l mt-[7.5vh]   ml-[4vw]">
+            <div className="z-50 ml-10">
+              <Search />
+            </div>
+
+            <div className="sticky w-[25vw] ml-10 h-fit mt-[9vh] top-0 ">
               <RightSection />
             </div>
           </div>

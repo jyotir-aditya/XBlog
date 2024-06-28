@@ -1,4 +1,5 @@
 import Follow from "@/components/Follow";
+import ContentTiptap from "@/components/subComponents/ContentTiptap";
 import Image from "next/image";
 import React from "react";
 
@@ -91,9 +92,10 @@ const page = async ({ params }) => {
           </div>
         </div>
         <div className="Content mt-[4vh]">
-          <p className="text-[1.6vw] font-robo leading-[2.5vw] tracking-widest">
+          {/* <p className="text-[1.6vw] font-robo leading-[2.5vw] tracking-widest">
             {data.content}
-          </p>
+          </p> */}
+          <ContentTiptap content={data.content}/>
         </div>
         <div className="Tags mt-[4vw]">
           <div className="flex gap-6">
@@ -108,7 +110,7 @@ const page = async ({ params }) => {
           </div>
         </div>
 
-        <div>{data.user_id}</div>
+        {/* <div>{data.user_id}</div> */}
       </div>
     </div>
   );

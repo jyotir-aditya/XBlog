@@ -1,0 +1,12 @@
+
+/* .tiptap{
+    height: 50vh;
+    
+} */
+p.is-editor-empty:first-child::before {
+    color: gray;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }

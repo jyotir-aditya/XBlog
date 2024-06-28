@@ -53,7 +53,7 @@ const Search = () => {
   }, [prevScrollY]);
 
   return (<div
-    className="mb-5 fixed z-50 w-[30vw] "
+    className="mb-5 fixed z-50 w-[25vw] "
     style={{ transform: `translateY(${offset}px)`}}
   >
     <div className='pt-2 bg-white'>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Trending = () => {
   const [posts, setposts] = useState([]);
@@ -19,19 +20,29 @@ const Trending = () => {
     fetchTrendingPosts();
   }, []);
   return (
-    <div>
-      <div className="min-h-[55vh] max-h-[60vh] overflow-hidden mt-4 border border-green-200 rounded-xl w-full px-2 pb-2 pt-2">
+    <div className="">
+      <div className="min-h-[56vh] max-h-[60]  overflow-hidden mt-4  border-green-200 rounded-xl w-full px-2  pt-2">
         <h1 className="text-xl font-robo font-bold mb-2">Trending</h1>
         <div className="Posts">
-          {posts.map((post,index) => (
-            <div key={index} className=" py-1 my-2  px-2 shadow-md rounded-md">
+          {posts.map((post, index) => (
+            <div key={index} className="  my-4  p-2  border rounded-md">
+              <Link href={`/${post.username}`}>
                 <div className="flex gap-4 items-center mb-2">
-                <Image src={post.user_picture} height={25} width={25} alt="user pic" className="rounded-lg" />
-                    <h2>{post.user_name}</h2>
+                  <Image
+                    src={post.user_picture}
+                    height={25}
+                    width={25}
+                    alt="user pic"
+                    className="rounded-lg"
+                  />
+                  <h2>{post.user_name}</h2>
                 </div>
-              <h1 className="text-lg text-gray-700 line-clamp-2 mb-2 tracking-tight leading-6 font-slab font-medium">
-                {post.title}
-              </h1>
+              </Link>
+              <Link href={`/post/${post.slug}`}>
+                <h1 className="text-lg text-gray-700 line-clamp-2 mb-2 tracking-tight leading-6 font-slab font-medium">
+                  {post.title}
+                </h1>
+              </Link>
             </div>
           ))}
         </div>

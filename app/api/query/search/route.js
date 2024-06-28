@@ -53,6 +53,7 @@ export async function GET(request) {
         console.error('Error fetching posts:', error);
         return new Response("Internal Server Error", { status: 500 });
     } finally {
-        await client.release();
+        await client.release(true);
+        await client.end();
     }
 }

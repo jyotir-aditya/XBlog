@@ -14,9 +14,9 @@ const db = new Pool({
 });
 
 export async function GET(request) {
-  db.connect();
+  const client = await db.connect();
   try {
-    const data = await db.query("SELECT slug  FROM posts;");
+    const data = await client.query("SELECT slug  FROM posts;");
     console.log("in server",data.rows);
     return new Response(JSON.stringify(data.rows), {status:200,
       headers: {

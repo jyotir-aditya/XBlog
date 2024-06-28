@@ -14,7 +14,7 @@ export async function GET() {
     const client = await db.connect();
     try {
         let query = `
-            SELECT p.id AS post_id, p.title, p.picture, p.description, p.slug, p.tags, p.created_at, p.category_id, c.name AS category_name, u.name AS user_name, u.image AS user_picture 
+            SELECT p.id AS post_id, p.title, p.picture, p.description, p.slug, p.tags, p.created_at, p.category_id, c.name AS category_name,username, u.name AS user_name, u.image AS user_picture 
             FROM posts p 
             INNER JOIN xusers u ON p.user_id = u.id 
             LEFT JOIN categories c ON p.category_id = c.id 
@@ -33,6 +33,6 @@ export async function GET() {
         console.error('Error fetching posts:', error);
         return new Response("Internal Server Error", { status: 500 });
     } finally {
-        await client.release();
+        await client.release(true);
     }
 }

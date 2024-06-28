@@ -18,9 +18,8 @@ const db = new Pool({
 
   export const POST = async (request) => {
     const data = await request.json();
-  
+  const client = await db.connect();
     try {
-      const client = await db.connect();
   
       // Determine follow/unfollow based on existing follow record (optional)
       const isFollowing = await client.query(
@@ -35,8 +34,6 @@ const db = new Pool({
   
       await client.query(query, [data.userId, data.postId]);
       console.log(query,data.userId,data.postId);
-  
-      await client.release(true); // Release connection
   
       return new Response({ status: 200 });
     } catch (error) {

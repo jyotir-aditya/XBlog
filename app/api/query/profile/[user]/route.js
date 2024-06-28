@@ -16,7 +16,7 @@ const db = new Pool({
 export async function GET(request, { params }) {
   const client = await db.connect();
     try {
-      const data = await client.query("SELECT id,name,image,username,bio FROM xusers WHERE username = $1", [params.user]);
+      const data = await client.query("SELECT id,name,image,username,bio, coverimageurl FROM xusers WHERE username = $1", [params.user]);
       const dat = await client.query("SELECT u.id AS user_id, u.name, u.email, u.image,p.id AS post_id, p.title, p.picture, p.description, p.content, p.tags, p.created_at, p.slug FROM xusers u INNER JOIN posts p ON u.id = p.user_id WHERE u.username = $1", [params.user]);
       console.log(data.rows[0]);
       return new Response(JSON.stringify(data.rows[0]), {
