@@ -17,7 +17,11 @@ export async function generateStaticParams() {
     posts = await response.json();
   } catch (error) {
     console.error(`Error fetching slugs: ${error.message}`);
-    return [];
+    // Use fallback data if API request fails
+    posts = [
+      { slug: "example-slug-1" },
+      { slug: "example-slug-2" }
+    ];
   }
 
   return posts.map((post) => ({
