@@ -5,6 +5,7 @@ import Feed from "./Feed";
 import RightSection from "./RightSection";
 import FilterCategories from "./subComponents/FilterCategories";
 import Search from "./Search";
+import { FunnelIcon } from "@heroicons/react/24/outline";
 
 const Homepage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -30,8 +31,13 @@ const Homepage = () => {
               className="mb-5 fixed z-50 w-[30vw] "
               style={{ transform: `translateY(${offset}px)`}}
             > */}
-            <div className="pl-10"><Search /></div>
-              
+            <div className="pl-10">
+              <Search
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+              />
+            </div>
+
             {/* </div> */}
             <div className="RightSection sticky top-0 mt-[9vh] h-fit  w-[25vw] ml-10">
               <RightSection />

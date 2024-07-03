@@ -1,23 +1,30 @@
 "use client";
 import logo from "../public/Images/icon.png";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import Dropdown from "./subComponents/Dropdown";
 
 const MainNavbar = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [prevScrollY, setPrevScrollY] = useState(0);
   const [offset, setOffset] = useState(0);
   const { data: session, status } = useSession();
+  const dropdownRef = useRef(null);
+  const profilePicRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDiff = currentScrollY - prevScrollY;
 
-      setOffset(prevOffset => {
+      setOffset((prevOffset) => {
         const newOffset = prevOffset - scrollDiff;
+        if (newOffset < -59) {
+          setShowDropdown(false); // Hide Dropdown when navbar is not visible
+        }
         return Math.max(Math.min(newOffset, 0), -60); // Limit offset between -60 and 0
       });
 
@@ -28,57 +35,98 @@ const MainNavbar = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollY]);
- 
-  return (
-    <div
-      className="fixed top-0 z-[999] w-full sm:px-5 bg-white flex justify-between items-center overflow-hidden border-b-2"
-      style={{ transform: `translateY(${offset}px)` }}
-    >
-      <Link href={"/"}>
-        <Image
-          alt="logo"
-          src={logo}
-          style={{ objectFit: "cover" }}
-          priority="false"
-          height={60}
-          width={60}
-        />
-      </Link>
 
-      <div className="flex gap-8">
-        <div className="text-lg text-gray-600 font-medium font-robo flex gap-8 justify-between">
-          <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })} className="">
-            Sign out
-          </button>
-          <button
-            //onClick={() => signIn("google", { callbackUrl: "/profile" })}
-            className=""
-          >
-            <Link href={`/${status=="authenticated"&&session.user.username}`}>Profile</Link>
-          </button>
-          <button>
-            <Link href={"/newpost"}>Write</Link>
-          </button>
-          <button className="">About us</button>
-        </div>
-        {status === "authenticated" && (
+  const handleProfilePicClick = () => {
+    setShowDropdown((prev) => !prev); // Toggle Dropdown visibility
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      profilePicRef.current &&
+      !profilePicRef.current.contains(event.target)
+    ) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showDropdown) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  return (
+    <div>
+      <div
+        className="fixed top-0 z-[999] w-full sm:px-5 bg-white flex justify-between items-center overflow-hidden border-b-2"
+        style={{ transform: `translateY(${offset}px)` }}
+      >
+        <Link href={"/"}>
           <Image
-            alt="profile pic"
-            src={session.user.image}
-            style={{ objectFit: "cover", borderRadius: 50 }}
+            alt="logo"
+            src={logo}
+            style={{ objectFit: "cover" }}
             priority="false"
-            height={40}
-            width={40}
+            height={60}
+            width={60}
           />
-        )}
+        </Link>
+
+        <div className="flex gap-8">
+          <div className="text-lg text-gray-600 font-medium font-robo flex gap-8 justify-between">
+            <button
+              onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}
+              className=""
+            >
+              Sign out
+            </button>
+            <button className="">
+              <Link
+                href={`/${status === "authenticated" ? session.user.username : ""}`}
+              >
+                Profile
+              </Link>
+            </button>
+            <button>
+              <Link href={"/newpost"}>Write</Link>
+            </button>
+            <button className="">About us</button>
+          </div>
+          {status==="loading"&&(
+            <div className="h-[40px] w-[40px] rounded-full bg-gray-400 animate-pulse"></div>
+          )}
+          {status === "authenticated" && (
+            <Image
+              ref={profilePicRef}
+              alt="profile pic"
+              src={session.user.image}
+              style={{ objectFit: "cover", borderRadius: 50, cursor: 'pointer' }}
+              priority="false"
+              height={40}
+              width={40}
+              onClick={handleProfilePicClick}
+            />
+          )}
+        </div>
       </div>
+      {showDropdown && (
+        <div ref={dropdownRef}>
+          <Dropdown />
+        </div>
+      )}
     </div>
   );
 };
 
 export default MainNavbar;
-
-
 
 
 // "use client";
@@ -103,7 +151,6 @@ export default MainNavbar;
 //   const handleSignOut = async () => {
 //     const res=fetch("/api/auth/signout")
 //     const data =(await res).status;
-
 
 //   };
 
@@ -159,8 +206,7 @@ export default MainNavbar;
 //             </button>
 //             <button><Link href={"/newpost"}>Write</Link></button>
 //             <button className="">About us</button>
-            
-            
+
 //           </div>
 //           {status === "authenticated" && (
 //             <Image

@@ -4,7 +4,7 @@ import SessionWraper from "@/components/SessionWraper";
 import LandingNavbar from "@/components/LandingNavbar";
 import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
-
+import logo from "../public/Images/icon.png";
 
 const roboto=Roboto({
   subsets:["latin"],
@@ -23,9 +23,14 @@ const roboto_slab = Roboto_Slab({
 })
 
 export const metadata = {
-  title: "Home",
-  description: "This is homepage.",
-};
+  title: 'XBlog',
+  description: 'Here you can share your thoughts.',
+  keywords: ["XBlog", "Blog", "Share", "Write"],
+  openGraph: {
+    images: logo,
+  },
+
+}
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession();

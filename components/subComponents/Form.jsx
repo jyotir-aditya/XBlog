@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Tiptap from "../Tiptap";
+import { useRouter } from "next/navigation";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -15,6 +15,10 @@ export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [Content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router=useRouter();
 
   useEffect(() => {
     async function fetchCategories() {
@@ -31,79 +35,100 @@ export default function Page() {
     fetchCategories();
   }, []);
 
+  function validateImageURL(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
+    setData();
     if (session) {
+      setLoading(true);
+      setErrorMessage(""); // Reset error message
+
+      const isValidImage = await validateImageURL(imageURL);
+      if (!isValidImage) {
+        setErrorMessage("Invalid image URL. Please enter a valid URL.");
+        setLoading(false);
+        return;
+      }
+      
+
       const formData = new FormData(event.target);
       formData.append("userId", session.user.id);
       formData.append("category", selectedCategory?.value);
       formData.append("content", JSON.stringify(Content));
-      formData.append("title", title); 
+      formData.append("title", title);
 
-      const response = await fetch("/api/query/newpost", {
-        method: "POST",
-        body: formData,
-      });
-      const res = await response.status;
-      setData(res);
-      console.log(res);
+      try {
+        const response = await fetch("/api/query/newpost", {
+          method: "POST",
+          body: formData,
+        });
+        const res = await response.status;
+        setData(res);
+        console.log(res);
+        if(res===200){
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error submitting post:", error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       console.log("session not found");
     }
   }
-  function test(){
-    event.preventDefault();
-    console.log(Content);
-    console.log(title);
-  }
-  //fix late rendering,improve input sturucture of description,use content in post ,edit data in pgadmin
+
   return (
     <div className="min-h-[100vh] h-fit w-full flex justify-center items-center">
       <div className="mt-[10vh]">
-        {/* <div className="text-[2vw] flex justify-center bg-fuchsia-200 mb-4 font-robo font-medium"><h1>Enter Details</h1></div> */}
-        <div className="Form w-full h-full max-w-[60vw] min-w-[50vw] bg-white shadow-md rounded-xl  mb-[2vh] p-[2vw]">
-            <div className={`${isVisible ? "block" : "hidden"} flex flex-col `}>
-              <div className="flex flex-col ml-2">
-                <input
-                  className="text-[3vw] font-bold font-robo rounded-md  px-4 py-2 outline-none"
-                  placeholder="Heading"
-                  type="text"
-                  name="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  // onKeyDown={(e)=>{e.key=="Enter"&& console.log(e.key)}}
-                  required
-                />
-              </div>
-              <Tiptap setContent={setContent} />
-              <div className="flex justify-center">
-                <div
-                  className="border-[2px] px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm"
-                  onClick={() => setIsVisible(false)}
-                >
-                  Next
-                </div>
+        <div className="Form w-full h-full max-w-[60vw] min-w-[50vw] bg-white shadow-md rounded-xl mb-[2vh] p-[2vw]">
+          <div className={`${isVisible ? "block" : "hidden"} flex flex-col`}>
+            <div className="flex flex-col ml-2">
+              <input
+                className="text-[3vw] font-bold font-robo rounded-md px-4 py-2 outline-none"
+                placeholder="Heading"
+                type="text"
+                name="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <Tiptap setContent={setContent} />
+            <div className="flex justify-center">
+              <div
+                className="border-[2px] px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm"
+                onClick={() => setIsVisible(false)}
+              >
+                Next
               </div>
             </div>
+          </div>
           <form onSubmit={onSubmit} className="">
-            <div
-              className={`${
-                isVisible ? "hidden" : "block"
-              } h-fit gap-4 space-y-6`}
-            >
+            <div className={`${isVisible ? "hidden" : "block"} h-fit gap-4 space-y-6`}>
               <div className="flex flex-col">
                 <input
-                  className="text-[1.3vw] rounded-md  px-4 py-2 outline-none"
+                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   autoComplete="off"
                   placeholder="Image URL"
                   type="text"
                   name="picture"
+                  value={imageURL}
+                  onChange={(e) => setImageURL(e.target.value)}
                   required
                 />
               </div>
               <div className="flex flex-col">
                 <textarea
-                  className="text-[1.3vw] rounded-md  px-4 py-2 outline-none"
+                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   rows={3}
                   placeholder="Description (30-40 words)"
                   name="description"
@@ -112,7 +137,7 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <input
-                  className="text-[1.3vw] rounded-md  px-4 py-2 outline-none"
+                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   autoComplete="off"
                   spellCheck="false"
                   placeholder="Tags (separated by comma)"
@@ -139,14 +164,20 @@ export default function Page() {
                   Back
                 </div>
                 <button
-                  className="border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm bg-blue-500 text-white hover:bg-blue-700"
+                  className={`border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm ${loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-700"}`}
                   type="submit"
+                  disabled={loading}
                 >
-                  Post
+                  {loading ? "Posting..." : "Post"}
                 </button>
               </div>
             </div>
           </form>
+          {errorMessage && (
+            <div className="mt-4 text-red-600 text-[1.5vw]">
+              {errorMessage}
+            </div>
+          )}
           {data && (
             <div className="mt-4 text-green-600 text-[1.5vw]">
               Response Status: {data}

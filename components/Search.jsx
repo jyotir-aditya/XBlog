@@ -1,10 +1,29 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { useDebouncedCallback } from 'use-debounce';
+import React, { useState, useEffect, useCallback } from "react";
+import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useDebouncedCallback } from "use-debounce";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Filter from "./Filter";
 
-const Search = () => {
+const Search = ({ selectedCategory, setSelectedCategory }) => {
   const [term, setTerm] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const [result, setResult] = useState();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  //enter handle
+  function handleEnter(value) {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("x", value);
+    } else {
+      params.delete("x");
+    }
+    console.log("replacing url");
+
+    router.push(`/search?${params.toString()}`);
+  }
 
   const handleSearch = useCallback(async (searchTerm) => {
     if (!searchTerm) {
@@ -14,7 +33,9 @@ const Search = () => {
 
     console.log(`Searching... ${searchTerm}`);
     try {
-      const response = await fetch(`/api/query/search?term=${encodeURIComponent(searchTerm)}`);
+      const response = await fetch(
+        `/api/query/search?term=${encodeURIComponent(searchTerm)}`
+      );
       const result = await response.json();
       setResult(result);
       console.log(result);
@@ -29,7 +50,7 @@ const Search = () => {
   useEffect(() => {
     debouncedHandleSearch(term);
   }, [term, debouncedHandleSearch]);
-//scroll handle
+  //scroll handle
   const [scrollY, setScrollY] = useState(0);
   const [prevScrollY, setPrevScrollY] = useState(0);
   const [offset, setOffset] = useState(0);
@@ -52,37 +73,54 @@ const Search = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollY]);
 
-  return (<div
-    className="mb-5 fixed z-50 w-[25vw] "
-    style={{ transform: `translateY(${offset}px)`}}
-  >
-    <div className='pt-2 bg-white'>
-      <div className="relative flex flex-1 flex-shrink-0">
-        <input
-          className="block text-base font-robo w-full rounded-md border border-gray-200 py-2 pl-10 outline-none placeholder:text-gray-500"
-          placeholder="Search"
-          onChange={(e) => setTerm(e.target.value)}
-          value={term}
-        />
-        <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-      </div>{result&&<div className='min-h-[20vh] mt-4'>
-        {result.length > 0 ? (<div className='z-50 bg-white border p-2 rounded-xl'>
-            <ul>
-            {result.map((item) => (
-              <li key={item.id} className="py-2 border-b">
-                <h2 className="text-lg font-semibold">{item.title}</h2>
-                <p className="text-sm text-gray-500">{item.description}</p>
-              </li>
-            ))}
-          </ul>
-          </div>
-          
-        ) : (
-          <p className="text-sm text-gray-500">No results found.</p>
+  return (
+    <div
+      className="mb-5 fixed  z-50 w-[25vw] "
+      style={{ transform: `translateY(${offset}px)` }}
+    >
+      <div className="pt-2 bg-white flex items-center gap-2">
+        {pathname === "/" && (
+          <Filter
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
         )}
-      </div>}
-      
-    </div>
+        <div className="relative flex flex-1 flex-shrink-0">
+          <input
+            className="block text-base font-robo w-full rounded-md border border-gray-200 py-2 pl-10 outline-none placeholder:text-gray-500"
+            placeholder="Search"
+            onChange={(e) => setTerm(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onKeyDown={(e) => {
+              e.key == "Enter" && handleEnter(term);
+            }}
+            value={term}
+          />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+        </div>
+        
+      </div>
+      {isFocused&&result && (
+          <div className="min-h-[20vh] mt-4">
+            {result.length > 0 ? (
+              <div className="z-50 bg-white border p-2 rounded-xl min-h-[10vh] max-h-[55vh] overflow-y-auto">
+                <ul>
+                  {result.map((item, index) => (
+                    <li key={index} className="py-2 border-b">
+                      <h2 className="text-lg font-semibold">{item.title}</h2>
+                      <p className="text-sm text-gray-500">
+                        {item.description}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">No results found.</p>
+            )}
+          </div>
+        )}
     </div>
   );
 };
