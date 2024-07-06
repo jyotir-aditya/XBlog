@@ -20,6 +20,9 @@ export async function GET(request, { params }) {
       const dat = await client.query("SELECT * FROM posts WHERE slug = $1", [params.post]);
       const data = await client.query("SELECT u.id AS user_id, u.name, u.email, u.image,p.id AS post_id, p.title, p.picture, p.description, p.content, p.tags,p.category_id, p.created_at, p.slug FROM xusers u INNER JOIN posts p ON u.id = p.user_id WHERE p.slug = $1", [params.post]);
       console.log(data.rows[0]);
+      if(data.rows[0]==undefined){
+        return new Response("Not found", { status: 500 });
+      }
       return new Response(JSON.stringify(data.rows[0]), {
         headers: {
           'Content-Type': 'application/json'
@@ -27,7 +30,7 @@ export async function GET(request, { params }) {
       });
     } catch (error) {
       console.error('Error fetching user data:', error);
-      return new Response("Internal Server Error", { status: 500 });
+      
     }finally{
       await client.release();
     }
