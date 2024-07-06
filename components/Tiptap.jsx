@@ -1,24 +1,22 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import "./styles.css";
 import {
   useEditor,
   EditorContent,
   BubbleMenu,
   FloatingMenu,
-  Editor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
-const Tiptap = ({Content,setContent}) => {
 
-  //main editor
+const Tiptap = ({ Content, setContent }) => {
   const editor = useEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[80vh]  prose prose-sm sm:prose lg:prose-lg xl:prose-xl  prose-h1:font-semibold prose-h1:font-robo prose-h3:font-robo prose-h3:mt-2 prose-p:font-robo  mx-auto focus:outline-none",
+          "min-h-[80vh] prose prose-sm sm:prose lg:prose-lg xl:prose-xl prose-h1:font-semibold prose-h1:font-robo prose-h3:font-robo prose-h3:mt-2 prose-p:font-robo mx-auto focus:outline-none",
       },
     },
     extensions: [
@@ -29,14 +27,17 @@ const Tiptap = ({Content,setContent}) => {
       }),
     ],
     onUpdate({ editor }) {
-      // The content has changed.
       setContent(editor.getJSON());
     },
-    // content: `
-    //   <h1>Heading</h1>
-    // `,
   });
-  //Image
+
+  // Load content when the editor is ready and content changes
+  useEffect(() => {
+    if (editor && Content) {
+      editor.commands.setContent(Content);
+    }
+  }, [editor, Content]);
+
   const addImage = useCallback(() => {
     const url = window.prompt("URL");
 
@@ -48,12 +49,6 @@ const Tiptap = ({Content,setContent}) => {
   if (!editor) {
     return null;
   }
- 
-  Content&&editor.commands.setContent(Content);
-
-  
-
-
 
   return (
     <div className="h-full flex justify-center">
@@ -84,7 +79,7 @@ const Tiptap = ({Content,setContent}) => {
         )}
         {editor && (
           <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <div className="floating-menu border rounded-xl px-2 backdrop-blur-sm  py-2 mt-2 flex gap-4">
+            <div className="floating-menu border rounded-xl px-2 backdrop-blur-sm py-2 mt-2 flex gap-4">
               <button
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 1 }).run()
@@ -112,7 +107,9 @@ const Tiptap = ({Content,setContent}) => {
                 Bullet list
               </button>
               <button
-                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                onClick={() =>
+                  editor.chain().focus().toggleOrderedList().run()
+                }
                 className={editor.isActive("orderedList") ? "is-active" : ""}
               >
                 Toggle ordered list
@@ -121,10 +118,8 @@ const Tiptap = ({Content,setContent}) => {
             </div>
           </FloatingMenu>
         )}
-        <div className="w-[50vw]  p-[2vw]  rounded-xl">
-          <div>
-            <EditorContent editor={editor} />
-          </div>
+        <div className="w-[50vw] p-[2vw] rounded-xl">
+          <EditorContent editor={editor} />
         </div>
       </div>
     </div>
