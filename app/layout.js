@@ -26,9 +26,7 @@ export const metadata = {
   title: 'XBlog',
   description: 'Here you can share your thoughts.',
   keywords: ["XBlog", "Blog", "Share", "Write"],
-  openGraph: {
-    images: logo,
-  },
+  
 
 }
 

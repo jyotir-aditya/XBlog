@@ -62,8 +62,8 @@ async function getData(slug) {
 const page = async ({ params }) => {
   const data = await getData(params.slug);
   return (
-    <div className="mt-[15vh] w-full flex justify-center">
-      <div className="Main max-w-[50vw] flex flex-col gap-6 border-2 p-[2vw] rounded-xl">
+    <div className="w-full flex justify-center">
+      <div className="Main max-w-[50vw] mt-[15vh] flex flex-col gap-6 border-2 p-[2vw] rounded-xl">
         <div className="Header flex flex-col gap-4">
           <div className="Heading">
             <h1 className=" text-[3vw] tracking-tighter leading-[3vw] font-bold ">

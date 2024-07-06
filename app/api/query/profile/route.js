@@ -15,7 +15,6 @@ import { db } from '@vercel/postgres';
 // });
 
 export async function GET(request, { params }) {
-  const client = await db.connect();
   const session = await getServerSession();
   
   // Log the session object to check its structure
@@ -29,6 +28,7 @@ export async function GET(request, { params }) {
     console.log("This is userEmail inside GET function:");
     console.log(userEmail);
     
+    const client = await db.connect();
     try {
       const data = await client.query("SELECT * FROM xusers WHERE email = $1", [userEmail]);
       console.log(data.rows[0]);
@@ -48,4 +48,51 @@ export async function GET(request, { params }) {
   }
   
   return new Response("Access denied", { status: 403 });
+}
+
+
+
+
+export async function PUT(request){
+  const session = await getServerSession();
+  if (session && session.user) {
+  const client = await db.connect();
+
+  
+  try {
+    const formData = await request.formData();
+    console.log(formData);
+    const name = formData.get("name");
+    const image = formData.get("image");
+    const coverimageurl = formData.get("coverimage");
+    const bio = formData.get("bio");
+
+     console.log(name, image, coverimageurl, bio);
+
+     const result = await client.query(
+      `
+      UPDATE xusers
+      SET name = $1,image=$2 , bio = $3, coverimageurl = $4
+      WHERE email = $5
+      RETURNING *;
+      `,
+      [name,image, bio, coverimageurl,session.user.email]
+    );
+
+    console.log(result.rows[0]);
+    return new Response(JSON.stringify(result.rows[0]), {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      status: 200
+    });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  } finally {
+    await client.release();
+  }
+}else{
+  return new Response("Access denied", { status: 403 });
+  }
 }

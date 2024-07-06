@@ -11,7 +11,7 @@ import {
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
-const Tiptap = ({setContent}) => {
+const Tiptap = ({Content,setContent}) => {
 
   //main editor
   const editor = useEditor({
@@ -48,6 +48,10 @@ const Tiptap = ({setContent}) => {
   if (!editor) {
     return null;
   }
+ 
+  Content&&editor.commands.setContent(Content);
+
+  
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { usePathname, useRouter } from "next/navigation";
+import { permanentRedirect, RedirectType, usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 const ProfileFeed = ({ userId }) => {
@@ -55,6 +55,10 @@ const ProfileFeed = ({ userId }) => {
       }
     }
   };
+  function editClickHandler(slug){
+    console.log("edit url",slug)
+    router.push(`${pathname}/editpost/${slug}`,"push");
+  }
 
   return (
     <div>
@@ -114,7 +118,7 @@ const ProfileFeed = ({ userId }) => {
                         />
                         {openMenuIndex === index && (
                           <div className="absolute z-50 mt-2  w-[150px] bg-white border rounded-md shadow-lg">
-                            <div className="py-2 px-4 cursor-pointer hover:bg-gray-100">
+                            <div onClick={()=>editClickHandler(post.slug)} className="py-2 px-4 cursor-pointer hover:bg-gray-100">
                               Edit
                             </div>
                             <div

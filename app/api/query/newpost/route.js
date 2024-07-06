@@ -53,3 +53,41 @@ export async function POST(request) {
     await client.release();
   }
 }
+
+export async function PUT(request) {
+  const client = await db.connect();
+
+  try {
+    const formData = await request.formData();
+    const postId = formData.get("post_id");
+    const title = formData.get("title");
+    const picture = formData.get("picture");
+    const desc = formData.get("description");
+    const content = JSON.parse(formData.get("content")); // Parse JSON content
+    const tags = formData.get("tags").split(",").map((tag) => tag.trim());
+    const userId = formData.get("userId");
+    const slug = generateSlug(title); // Generate slug
+    const category = formData.get("category");
+
+    console.log(title, picture, desc, content, tags, userId, slug, category);
+
+    const result = await client.query(
+      "UPDATE posts SET title = $1, picture = $2, description = $3, content = $4, tags = $5, slug = $6, user_id = $7, category_id = $8 WHERE id = $9 RETURNING *",
+      [title, picture, desc, JSON.stringify(content), tags, slug, userId, category, postId]
+    );
+
+    console.log(result.rows[0]);
+    return new Response(JSON.stringify(result.rows[0]), {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      status: 200
+    });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  } finally {
+    await client.release();
+  }
+}
+
