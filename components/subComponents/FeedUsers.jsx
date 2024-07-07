@@ -24,7 +24,7 @@ const FeedUsers = () => {
 
   useEffect(() => {
     fetchTopAuthors();
-  }, []);
+  }, [topAuthors]);
 
   return (
     <div>
