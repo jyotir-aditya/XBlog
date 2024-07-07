@@ -12,7 +12,7 @@ const FeedUsers = () => {
   async function fetchTopAuthors() {
     console.log("inside fetch posts");
     try {
-      const response = await fetch(`/api/query/topauthors`);
+      const response = await fetch(`/api/query/topauthors`,{cache: 'reload'});
       const res = await response.json();
       console.log("inside topauthors:", res);
       setTopAuthors(res);
@@ -24,7 +24,7 @@ const FeedUsers = () => {
 
   useEffect(() => {
     fetchTopAuthors();
-  }, [topAuthors]);
+  }, []);
 
   return (
     <div>
