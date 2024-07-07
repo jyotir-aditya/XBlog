@@ -12,7 +12,7 @@ const FeedUsers = () => {
   async function fetchTopAuthors() {
     console.log("inside fetch posts");
     try {
-      const response = await fetch(`/api/query/topauthors`,{cache: 'reload'});
+      const response = await fetch(`/api/query/topauthors`,{cache: 'no-store'});
       const res = await response.json();
       console.log("inside topauthors:", res);
       setTopAuthors(res);
