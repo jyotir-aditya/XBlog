@@ -22,7 +22,7 @@ export async function GET(request) {
       FROM xusers
       LEFT JOIN followers ON xusers.id = followers.following_id
       GROUP BY xusers.id
-      ORDER BY follower_count DESC;
+      ORDER BY follower_count DESC LIMIT 3;
     `;
 
     const data = await client.query(query);

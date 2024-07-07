@@ -26,7 +26,7 @@ const Homepage = () => {
               <Feed selectedCategory={selectedCategory} />
             </div>
           </div>
-          <div className="Structure border-l w-[30vw] mt-[7.8vh] ">
+          <div className="Structure hidden sm:block  border-l w-full sm:w-[30vw] mt-[7.8vh] ">
             {/* <div
               className="mb-5 fixed z-50 w-[30vw] "
               style={{ transform: `translateY(${offset}px)`}}
@@ -39,7 +39,7 @@ const Homepage = () => {
             </div>
 
             {/* </div> */}
-            <div className="RightSection sticky top-0 mt-[9vh] h-fit  w-[25vw] ml-10">
+            <div className="RightSection sticky -top-16  mt-[9vh] h-fit  w-[25vw] ml-10 overflow-hidden">
               <RightSection />
             </div>
           </div>

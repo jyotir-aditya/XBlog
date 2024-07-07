@@ -40,7 +40,7 @@ const FilterCategories = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <div
-      className="px-2  bg-white w-[52vw] border-b-[1px]"
+      className="px-2  bg-white w-[100vw] sm:w-[52vw] border-b-[3px]"
       style={{ transform: `translateY(${offset}px)` }}
     >
       <div className="flex  no-scrollbar gap-9 overflow-x-auto">

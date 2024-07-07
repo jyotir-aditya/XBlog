@@ -44,7 +44,7 @@ const Feed = ({ selectedCategory }) => {
   }, [selectedCategory]);
 
   return (        
-      <div className="MainFeed w-[55vw]  ">
+      <div className="MainFeed w-[100vw] sm:w-[55vw]  ">
         
         
         {loading
@@ -56,7 +56,7 @@ const Feed = ({ selectedCategory }) => {
             
           : allPosts.map((post, index) => (
               
-                <div key={index} className="Card rounded-md shadow-md bottom-2 w-[50vw]  mt-[2vw] h-fit p-[1vw] backdrop-blur-md ">
+                <div key={index} className="Card rounded-md shadow-md bottom-2 mx-4 sm:mx-0 sm:w-[50vw]  mt-[2vw] h-fit p-[1vw] backdrop-blur-md ">
                   <div className="PostTextandPicture overflow-hidden  flex justify-between w-full">
                     <div className="inner-element ">
                       <div className="TextandTags flex flex-col h-full justify-between">
@@ -74,18 +74,18 @@ const Feed = ({ selectedCategory }) => {
                         </div>
                         </Link>
                         <Link href={`/post/${post.slug}`}>
-                        <div className="Text  w-[35vw]">
-                          <h1 className="text-2xl line-clamp-2 mb-2 tracking-tight leading-[2.2vw] font-slab font-bold">
+                        <div className="Text sm:w-[35vw]">
+                          <h1 className="text-2xl line-clamp-2 mb-2 tracking-tight sm:leading-[2.2vw] font-slab font-bold">
                             {post.title}
                           </h1>
-                          <p className="text-base line-clamp-4 mb-2 text-gray-500">{post.description}</p>
+                          <p className="text-base line-clamp-3 mb-2 text-gray-500">{post.description}</p>
                         </div>
                         </Link>
                         <div className="Tags  flex mt-2 gap-4">
                           {post.tags.slice(0, 4).map((tag, index) => (//post.category_name
                             <div
                               key={index}
-                              className="py-[3px] text-[1vw] font-robo px-[8px] bg-gray-100 w-fit rounded-2xl"
+                              className="py-[3px] text-sm font-robo px-[8px] bg-gray-100 w-fit rounded-2xl"
                             >
                              {tag}
                             </div>
@@ -95,13 +95,13 @@ const Feed = ({ selectedCategory }) => {
                     </div>
                     <div className=" Picture flex align-middle items-center py-[2vh]">
                       <Link href={`/post/${post.slug}`}>
-                      <div className="PostPicture w-[9vw] h-[9vw] flex align-middle ">
+                      <div className="PostPicture w-[130px] h-[130px] sm:w-[9vw] sm:h-[9vw] flex align-middle ">
                         <Image
                           src={post.picture}
                           alt="post picture"
                           width={140}
                           height={140}
-                          className="rounded-xl border-2 shadow-lg"
+                          className="rounded-xl bg-slate-600  border-2 shadow-lg"
                         ></Image>
                       </div>
                         </Link>
