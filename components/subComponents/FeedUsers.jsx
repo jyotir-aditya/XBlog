@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Follow from "../Follow";
 import Link from "next/link";
+import NoOfFollowrs from "./NoOfFollowrs";
 
 const FeedUsers = () => {
   const [topAuthors, setTopAuthors] = useState([]);
@@ -32,9 +33,9 @@ const FeedUsers = () => {
         <div>
           {topAuthors.map((item, index) => (
             <div key={index}>
-              <Link href={`/${item.username}`}>
-                <div className="Card  flex h-full  mt-2 bg-white border p-2 rounded-full ">
-                  <div className="h-full flex  self-center ">
+              <div className="Card  flex h-full  mt-2 bg-white border p-2 rounded-full ">
+                <div className="h-full flex  self-center ">
+                  <Link href={`/${item.username}`}>
                     <Image
                       src={item.image}
                       alt="user picture"
@@ -42,20 +43,24 @@ const FeedUsers = () => {
                       height={45}
                       className=" rounded-full"
                     />
-                  </div>
-                  <div className="InnerStructure flex w-full justify-between ml-2">
+                  </Link>
+                </div>
+                <div className="InnerStructure flex w-full justify-between ml-2">
+                  <Link href={`/${item.username}`}>
                     <div className="Textstructure ">
                       <p className="text-base font-robo">{item.name}</p>
-                      <p className="text-sm font-robo">{item.username}</p>
+                      <p className="text-sm font-robo">
+                        <NoOfFollowrs id={item.id} />
+                      </p>
                     </div>
-                    <div className="ButtonStucture  flex align-middle content-center items-center">
-                      <div className="border-[2px]  rounded-full py-2 px-4">
-                        <Follow id={item.id} />
-                      </div>
+                  </Link>
+                  <div className="ButtonStucture  flex align-middle content-center items-center">
+                    <div className="border-[2px]  rounded-full py-2 px-4">
+                      <Follow id={item.id} />
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           ))}
         </div>

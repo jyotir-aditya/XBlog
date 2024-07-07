@@ -13,12 +13,19 @@ import { getServerSession } from "next-auth/next";
 // });
 import { db } from '@vercel/postgres';
 
-
 export async function GET(request) {
-const client = await db.connect(); 
+  const client = await db.connect();
   try {
-     // Get a client from the pool
-    const data = await client.query("SELECT * FROM xusers;");
+    // SQL query to get users ordered by follower count
+    const query = `
+      SELECT xusers.*, COUNT(followers.follower_id) AS follower_count
+      FROM xusers
+      LEFT JOIN followers ON xusers.id = followers.following_id
+      GROUP BY xusers.id
+      ORDER BY follower_count DESC;
+    `;
+
+    const data = await client.query(query);
     console.log("in server", data.rows);
 
     return new Response(JSON.stringify(data.rows), {
@@ -32,6 +39,6 @@ const client = await db.connect();
 
     return new Response("Internal Server Error", { status: 500 });
   } finally {
-      client.release(true);  // Ensure the client is released back to the pool
+    client.release(true);  // Ensure the client is released back to the pool
   }
 }
