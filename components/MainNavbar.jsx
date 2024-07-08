@@ -79,7 +79,7 @@ const MainNavbar = () => {
   return (
     <div>
       <div
-        className="fixed top-0 z-[999] w-full sm:px-5 bg-white flex justify-between items-center overflow-hidden border-b-2"
+        className="fixed top-0 z-[999] w-[100vw] pr-2 sm:px-5 bg-white flex justify-between items-center overflow-hidden border-b-2"
         style={{ transform: `translateY(${offset}px)` }}
       >
         <Link href="/">

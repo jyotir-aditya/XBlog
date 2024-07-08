@@ -5,6 +5,7 @@ import LandingNavbar from "@/components/LandingNavbar";
 import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
 import logo from "../public/Images/icon.png";
+import TabBar from "@/components/TabBar";
 
 const roboto=Roboto({
   subsets:["latin"],
@@ -40,6 +41,9 @@ export default async function RootLayout({ children }) {
           <MainNavbar/>
           {children}
           </body>
+          <div className="block sm:hidden">
+          <TabBar/>
+          </div>
       </html>
     </SessionWraper>
   );
