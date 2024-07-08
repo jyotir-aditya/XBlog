@@ -13,6 +13,8 @@ import { getServerSession } from "next-auth/next";
 // });
 import { db } from '@vercel/postgres';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   const client = await db.connect();
   try {
