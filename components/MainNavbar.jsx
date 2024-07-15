@@ -82,6 +82,7 @@ const MainNavbar = () => {
         className="fixed top-0 z-[999] w-[100vw] pr-2 sm:px-5 bg-white flex justify-between items-center overflow-hidden border-b-2"
         style={{ transform: `translateY(${offset}px)` }}
       >
+        <div className="hidden sm:block">
         <Link href="/">
           <Image
             alt="logo"
@@ -91,7 +92,20 @@ const MainNavbar = () => {
             height={60}
             width={60}
           />
-        </Link>
+        </Link></div>
+        {/* for mobile */}
+        <div className="block sm:hidden">
+        <Link href="/">
+          <Image
+            alt="logo"
+            src={logo}
+            style={{ objectFit: "cover" }}
+            priority={true} // Load logo eagerly
+            height={50}
+            width={50}
+          />
+        </Link></div>
+
 
         <div className="flex gap-8">
           <div className="text-lg text-gray-600 font-medium font-robo flex gap-8 justify-between items-center">

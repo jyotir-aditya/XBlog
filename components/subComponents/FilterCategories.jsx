@@ -40,16 +40,16 @@ const FilterCategories = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <div
-      className="px-2  bg-white w-[100vw]  sm:w-[52vw] border-b-[3px]"
+      className="px-2  bg-white w-[100vw]  sm:w-[52vw] border-[1px] "
       style={{ transform: `translateY(${offset}px)` }}
     >
-      <div className="flex  no-scrollbar gap-9 overflow-x-auto">
+      <div className="flex h-[45px]   no-scrollbar gap-9 overflow-x-auto">
         <button
           onClick={() => setSelectedCategory("")}
-          className={`font-medium font-robo h-full flex flex-col justify-between items-center pt-4  text-gray-500  ${selectedCategory === "" ? "" : "mb-2"}`}
+          className={`font-medium font-robo h-full flex flex-col justify-center items-center     ${selectedCategory === "" ? "text-black" : "text-gray-500"}`}
         >
           All Posts
-          {selectedCategory===""&&<div className={"w-[70px] mt-2 border-[2px] border-black rounded-full"} />}
+          {/* {selectedCategory===""&&<div className={"w-[70px]  border-[2px] border-black rounded-full"} />} */}
         </button>
         {/* <button
           className={`category-button  ${selectedCategory === "" ? "active border-b-[3px] border-black" : ""}`}

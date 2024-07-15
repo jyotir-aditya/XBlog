@@ -16,13 +16,13 @@ const Homepage = () => {
       <div className="w-full flex justify-center items-center">
         <div className="flex min-h-[100vh]  bg-white ">
           <div>
-            <div className="Filter mt-[6.4vh] sm:mt-[7.5vh] fixed z-50 ">
+            {/* <div className="Filter mt-[50px] sm:mt-[7.5vh] fixed z-50 ">
               <FilterCategories
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
               />
-            </div>
-            <div className="Feed mt-[13vh] sm:mt-[18vh] mb-[9vh] sm:mb-4">
+            </div> */}
+            <div className="Feed mt-[58px] sm:mt-[80px] mb-[9vh] sm:mb-4">
               <Feed selectedCategory={selectedCategory} />
             </div>
           </div>
