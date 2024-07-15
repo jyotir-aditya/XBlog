@@ -40,10 +40,10 @@ export default async function RootLayout({ children }) {
         <body className={`${roboto_slab.variable} ${roboto_condensed.variable} ${roboto.variable} `}>
           <MainNavbar/>
           {children}
-          </body>
           <div className="block sm:hidden">
           <TabBar/>
           </div>
+          </body>
       </html>
     </SessionWraper>
   );

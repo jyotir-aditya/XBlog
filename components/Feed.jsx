@@ -46,7 +46,7 @@ const Feed = ({ selectedCategory }) => {
     <div className="MainFeed w-[100vw] sm:w-[55vw]  ">
       {loading ? (
         // Show skeleton loaders while loading
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col sm:gap-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <SkeletonCard key={index} />
           ))}

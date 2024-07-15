@@ -15,7 +15,7 @@ const Dropdown = ({ onLinkClick }) => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="h-fit w-[18vw] bg-white border shadow-md fixed end-5 z-[99] mt-[9vh]">
+    <div className="h-fit w-[200px] md:w-[18vw] bg-white border shadow-md fixed end-5 z-[99] mt-[9vh]">
       <div className="ml-6 my-6 flex flex-col gap-6">
         <Link
           href={`/${status === "authenticated" ? session.user.username : ""}`}

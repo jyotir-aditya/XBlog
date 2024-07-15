@@ -115,7 +115,7 @@ const  Header = () => {
     <div>
       <motion.div
         ref={headerRef}
-        className="fixed border-b-2 shadow-sm top-0 z-[999] w-full sm:px-20 py-2 backdrop-blur-sm flex justify-between items-center overflow-hidden"
+        className="fixed border-b-2 shadow-sm top-0 z-[999] w-full px-2 sm:px-20 py-2 backdrop-blur-sm flex justify-between items-center overflow-hidden"
         animate={{
           y: isVisible ? 0 : "-100vh", // Animate y-position on visibility change
           transition: { duration: 0.3 }, // Adjust transition duration as needed
@@ -130,8 +130,8 @@ const  Header = () => {
           width={60}
         />
 
-        <div className="flex gap-8">
-          <div className="text-[1.2vw] font-robo flex gap-8 justify-between ">
+        <div className="flex gap-4 sm:gap-8">
+          <div className="text-base sm:text-[1.2vw] font-robo flex gap-4 sm:gap-8 justify-between ">
             <button onClick={()=>signIn('google')} className="">Sign in</button>
             <button onClick={()=>signIn('google',{callbackUrl: '/profile'})} className="">Write</button>
             <button className="">About us</button>

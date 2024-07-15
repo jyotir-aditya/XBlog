@@ -18,12 +18,8 @@ export default async function Home() {
   }
 
   return (
-    <main>
-      <div>
+    <main className="h-screen">
         <Landing />
-        Not signed in <br />
-        {/* <button onClick={() => signIn()}>Sign in</button> */}
-      </div>
     </main>
   );
 }
