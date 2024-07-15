@@ -17,8 +17,8 @@ const SkeletonCard = () => {
           <div className="TextandTags flex flex-col h-fit justify-between">
             <div className="Text sm:w-[35vw] mb-4">
               <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-300 rounded w-[90%] mb-2"></div>
-              <div className="h-4 bg-gray-300 rounded w-[90%] mb-2"></div>
+              <div className="h-4 bg-gray-300 rounded w-[80%] mb-2"></div>
+              <div className="h-4 bg-gray-300 rounded w-[80%] mb-2"></div>
             </div>
             <div className="Tags w-[60vw] flex mt-2 gap-4 ">
               {Array.from({ length: 3 }).map((_, index) => (
@@ -30,7 +30,7 @@ const SkeletonCard = () => {
         
       </div>
       </div>
-      <div className="Picture flex sm:absolute sm:end-0 sm:-translate-y-[3.5vw] h-full mr-2 -translate-x-2 align-middle mt-7 items-center">
+      <div className="Picture flex sm:absolute sm:end-0 sm:-translate-y-[3.5vw] h-full mr-2 -translate-x-5 align-middle mt-7 items-center">
           <div className="PostPicture w-[120px] h-[120px] sm:w-[9vw] sm:h-[9vw] flex align-middle bg-gray-300 rounded-xl"></div>
         </div>
     </div>

@@ -54,9 +54,9 @@ const FeedUsers = () => {
                   <Link href={`/${item.username}`}>
                     <div className="Textstructure ">
                       <p className="text-base font-robo">{item.name}</p>
-                      <p className="text-sm font-robo">
+                      <div className="text-sm font-robo">
                         <NoOfFollowrs id={item.id} />
-                      </p>
+                      </div>
                     </div>
                   </Link>
                   <div className="ButtonStucture  flex align-middle content-center items-center">

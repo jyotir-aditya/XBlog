@@ -57,7 +57,7 @@ const Feed = ({ selectedCategory }) => {
             key={index}
             className="Card rounded-md border shadow-md bottom-2 mx-4 sm:mx-0 sm:w-[50vw] mt-[10px]  sm:mt-[2vw] h-fit p-[1vw] backdrop-blur-md "
           >
-            <div className="UserTextandPicture overflow-hidden   w-full">
+            <div className="PostTextandPicture overflow-hidden   w-full">
                 <div className="TopElement flex gap-4 align-middle content-center h-fit  items-center mb-2">
                   <Image
                     src={post.user_picture}
@@ -73,7 +73,7 @@ const Feed = ({ selectedCategory }) => {
                 </div>
               <div className="Structure overflow-hidden w-full flex justify-between">
                 <div className="inner-element ">
-                  <div className="TextandTags flex flex-col h-fit justify-between">
+                  <div className="Text flex flex-col h-fit justify-between">
                     <Link href={`/${post.username}`}></Link>
                     <Link href={`/post/${post.slug}`}>
                       <div className="Text sm:w-[35vw]">

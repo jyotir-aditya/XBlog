@@ -63,16 +63,16 @@ const page = async ({ params }) => {
   const data = await getData(params.slug);
   return (
     <div className="w-full flex justify-center">
-      <div className="Main max-w-[50vw] mt-[15vh] flex flex-col gap-6 border-2 p-[2vw] rounded-xl">
+      <div className="Main max-w-[90vw] mx-[5vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 border-2 p-[2vw] rounded-xl">
         <div className="Header flex flex-col gap-4">
           <div className="Heading">
-            <h1 className=" text-[3vw] tracking-tighter leading-[3vw] font-bold ">
+            <h1 className=" text-4xl sm:text-[3vw] tracking-tighter sm:leading-[3vw] font-bold ">
               {data.title}
               {console.log(data)}
             </h1>
           </div>
           <div className="Description">
-            <h2 className="text-[1.5vw] tracking-tighter text-gray-400 font-robo">
+            <h2 className="sm:text-[1.5vw] text-base tracking-tighter text-gray-400 font-robo">
               {data.description}
             </h2>
           </div>
@@ -82,13 +82,14 @@ const page = async ({ params }) => {
             <Image
               src={data.image}
               width={50}
+              alt="profile"
               height={50}
               className="rounded-full"
             />
             <div className="Infotext  w-full ml-5 flex flex-col">
               <div className="flex justify-between gap-8">
               <div className="font-robo font-medium">{data.name}{data.username}</div>
-              <div className="text-gray-400 flex align-middle content-center items-center gap-3">Publised on  <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>{formatDate(data.created_at)}</div>
+              <div className="text-gray-400 hidden sm:flex align-middle content-center items-center gap-3">Publised on  <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>{formatDate(data.created_at)}</div>
               </div>
               <div className="Downelements w-fit">
                 <Follow id={data.user_id}/>
@@ -97,16 +98,17 @@ const page = async ({ params }) => {
           </div>
         </div>
         <div className="Image mt-[2vh]">
-          <div className=" flex justify-center ">
+          
+          <div className="flex justify-center ">
             <Image
               src={data.picture}
               alt="Post image"
               width={750}
-              height={200}
-              objectFit="cover"
-              className="rounded-xl  h-[60vh] w-[45vw]"
+              height={200}              
+              className="rounded-xl h-[35vh]  sm:h-[60vh] sm:w-[45vw] w-full"
             />
           </div>
+         
         </div>
         <div className="Content mt-[4vh]">
           {/* <p className="text-[1.6vw] font-robo leading-[2.5vw] tracking-widest">
@@ -114,12 +116,12 @@ const page = async ({ params }) => {
           </p> */}
           <ContentTiptap content={data.content}/>
         </div>
-        <div className="Tags mt-[4vw]">
+        <div className="Tags mt-[2vw]">
           <div className="flex gap-6">
             {data.tags.slice(0, 4).map((tag, index) => (
               <div
                 key={index}
-                className="py-[4px] text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit rounded-full"
+                className="py-[4px] text-[11px] sm:text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit rounded-full"
               >
                 {tag}
               </div>

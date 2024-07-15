@@ -121,6 +121,7 @@ const  Header = () => {
           transition: { duration: 0.3 }, // Adjust transition duration as needed
         }}
       >
+        <div className="hidden sm:block">
         <Image
           alt="logo"
           src={logo}
@@ -128,10 +129,20 @@ const  Header = () => {
           priority="false"
           height={60}
           width={60}
-        />
+        /></div>
+        {/* for mobile */}
+        <div className="sm:hidden">
+        <Image
+          alt="logo"
+          src={logo}
+          style={{ objectFit: "cover" }}
+          priority="false"
+          height={50}
+          width={50}
+        /></div>
 
         <div className="flex gap-4 sm:gap-8">
-          <div className="text-base sm:text-[1.2vw] font-robo flex gap-4 sm:gap-8 justify-between ">
+          <div className="text-base hidden sm:flex sm:text-[1.2vw] font-robo  gap-4 sm:gap-8 justify-between ">
             <button onClick={()=>signIn('google')} className="">Sign in</button>
             <button onClick={()=>signIn('google',{callbackUrl: '/profile'})} className="">Write</button>
             <button className="">About us</button>

@@ -64,7 +64,7 @@ const Filter = ({ selectedCategory, setSelectedCategory }) => {
                             onClick={() => {selectedCategory === category.id ? setSelectedCategory(""):setSelectedCategory(category.id)}}
                         >
                             <div
-                                className={`overflow-hidden text-sm text-gray-400 hover:text-black py-4 mx-4 ${selectedCategory === category.id ? "text-zinc-950" : ""}`}
+                                className={`overflow-hidden text-sm text-gray-400 border-b-2 border-white  hover:border-black py-4 mx-4 ${selectedCategory === category.id ? "text-zinc-950" : ""}`}
                             >
                                 {category.name}
                             </div>

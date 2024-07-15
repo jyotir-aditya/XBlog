@@ -8,6 +8,14 @@ import Search from "./Search";
 const UserProfile = ({ username }) => {
   const [Profile, setProfile] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  function checkDevice(){
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+      return "mobile";
+    }else{
+      return "not mobile";
+    }
+    return "not found";
+  }
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -26,16 +34,17 @@ const UserProfile = ({ username }) => {
   }, []);
 
   return (
-    <div className="ml-[10vw]">
+    <div className="sm:ml-[10vw] ml-[5vw] mr-">
       {isLoading && <div className="w-[50vw] h-[100vh]">Loading</div>}
       {Profile && (
         <div className="flex">
-          <div className="OutertStructure w-[50vw] mt-[10vh] min-h-[100vh]">
-            <div className="bg-slate-300 relative rounded-lg h-[30vh] w-[50vw] ">
+          <div className="OutertStructure w-[100vw] sm:w-[50vw] mt-[10vh] min-h-[100vh]">
+            <div className="bg-slate-300 relative rounded-lg sm:h-[30vh] h-[150px] sm:w-[50vw] w-[90vw] ">
               {Profile.coverimageurl&&<Image
                 src={Profile.coverimageurl}
-                layout="fill"
-                className="rounded-lg"
+                height={300}
+                width={300}
+                className="rounded-lg h-full w-full"
                 alt="coverpic"
               />}
               
@@ -44,28 +53,36 @@ const UserProfile = ({ username }) => {
                 height={150}
                 width={150}
                 alt="user picture"
-                className="rounded-full absolute ml-[2vw] bottom-0 translate-y-[50%] border-2 border-white"
+                className="rounded-full hidden sm:block absolute ml-[2vw] bottom-0 translate-y-[50%] border-2 border-white"
+              />
+              {/* for mobile */}
+              <Image
+                src={Profile.image}
+                height={100}
+                width={100}
+                alt="user picture"
+                className="rounded-full  sm:hidden absolute ml-[2vw] bottom-0 translate-y-[50%] border-2 border-white"
               />
             </div>
-            <div className="UserDetails ml-[2vw]">
-              <h1 className="mt-[11vh] font-semibold font-slab text-[2.5vw]">
+            <div className="UserDetails h-fit ml-[2vw] mb-[30px]">
+              <h1 className="sm:mt-[11vh] mt-[3.5rem] font-semibold font-slab text-3xl sm:text-[2.5vw]">
                 {Profile.name}
               </h1>
-              <h2 className="text-xl font-medium text-gray-500">
+              <h2 className="sm:text-xl text-lg  font-medium text-gray-500">
                 {Profile.bio}
               </h2>
             </div>
-            <div>
+            <div className="mb-[60px]">
               <ProfileFeed userId={Profile.id} />
             </div>
           </div>
-          <div className=" w-[30vw] border-l mt-[7.5vh]   ml-[4vw]">
+          <div className=" hidden sm:block w-[30vw] border-l mt-[7.5vh]   ml-[4vw]">
             <div className="z-50 ml-10">
               <Search />
             </div>
 
-            <div className="sticky w-[25vw] ml-10 h-fit mt-[9vh] top-0 ">
-              <RightSection />
+            <div className="RightSection sticky -top-16  mt-[9vh] h-fit  w-[25vw] ml-10 overflow-hidden">
+              {checkDevice()=="not mobile"&&<RightSection />}
             </div>
           </div>
         </div>
