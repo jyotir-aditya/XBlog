@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useDebouncedCallback } from "use-debounce";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SearchBar = () => {
   const [term, setTerm] = useState("");
@@ -12,6 +13,7 @@ const SearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("x");
+  const dropdownRef = useRef(null);
 
   function handleEnter(value) {
     const params = new URLSearchParams(searchParams);
@@ -31,6 +33,7 @@ const SearchBar = () => {
       setResult();
       return;
     }
+    console.log("inside handleSearch");
 
     try {
       const response = await fetch(
@@ -54,6 +57,23 @@ const SearchBar = () => {
     setTerm(search || "");
   }, [search]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !inputRef.current.contains(event.target)
+      ) {
+        setIsFocused(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="w-full">
       <div>
@@ -65,7 +85,7 @@ const SearchBar = () => {
             onChange={(e) => setTerm(e.target.value)}
             value={term}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            //onBlur={() => setIsFocused(false)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleEnter(term);
@@ -74,19 +94,19 @@ const SearchBar = () => {
           />
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[25px] w-[25px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
         </div>
-        <div className="w-[35vw] absolute z-50">
+        <div ref={dropdownRef} className="sm:w-[35vw] w-[90vw] absolute z-50">
           {isFocused && term && result && (
-            <div className="min-h-[20vh] max-h-[55vh] overflow-y-auto">
+            <div className="min-h-[20vh] max-h-[55vh] overflow-y-auto shadow-md border-black">
               {result.length > 0 ? (
                 <div className="z-50 bg-white border p-2">
                   <ul>
-                    {result.map((item, index) => (
+                    {result.map((item, index) => (<Link href={`post/${item.slug}`} key={index}>
                       <li key={index} className="py-2 border-b">
                         <h2 className="text-lg font-semibold">{item.title}</h2>
                         <p className="text-sm text-gray-500">
                           {item.description}
                         </p>
-                      </li>
+                      </li></Link>
                     ))}
                   </ul>
                 </div>

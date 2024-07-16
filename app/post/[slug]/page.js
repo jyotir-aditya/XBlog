@@ -63,7 +63,7 @@ const page = async ({ params }) => {
   const data = await getData(params.slug);
   return (
     <div className="w-full flex justify-center">
-      <div className="Main max-w-[90vw] mx-[5vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 border-2 p-[2vw] rounded-xl">
+      <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
         <div className="Header flex flex-col gap-4">
           <div className="Heading">
             <h1 className=" text-4xl sm:text-[3vw] tracking-tighter sm:leading-[3vw] font-bold ">
@@ -72,13 +72,13 @@ const page = async ({ params }) => {
             </h1>
           </div>
           <div className="Description">
-            <h2 className="sm:text-[1.5vw] text-base tracking-tighter text-gray-400 font-robo">
+            <h2 className="sm:text-[1.5vw] text-lg tracking-tighter text-gray-400 font-robo">
               {data.description}
             </h2>
           </div>
         </div>
         <div className="UserInfo">
-          <div className="flex p-3 rounded-3xl shadow-md">
+          <div className="flex p-3 rounded-xl sm:rounded-3xl border sm:shadow-md">
             <Image
               src={data.image}
               width={50}
@@ -121,7 +121,7 @@ const page = async ({ params }) => {
             {data.tags.slice(0, 4).map((tag, index) => (
               <div
                 key={index}
-                className="py-[4px] text-[11px] sm:text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit rounded-full"
+                className="py-[4px] text-[11px] sm:text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit h-fit rounded-full"
               >
                 {tag}
               </div>

@@ -98,7 +98,7 @@ const ProfileFeed = ({ userId }) => {
                     width={30}
                     height={30}
                     alt="user picture"
-                    className="rounded-lg"
+                    className="rounded-full"
                   />
                   <h1 className="font-medium font-robo">{post.user_name}</h1>
                   <div className="text-gray-400 font-robo text-sm font-medium">
@@ -116,7 +116,7 @@ const ProfileFeed = ({ userId }) => {
                       width={30}
                       height={30}
                       alt="user picture"
-                      className="rounded-lg"
+                      className="rounded-full"
                     />
                     <h1 className="font-medium font-robo">{post.user_name}</h1>
                     <div className="text-gray-400 font-robo text-sm font-medium">
@@ -141,7 +141,7 @@ const ProfileFeed = ({ userId }) => {
                             alt="post picture"
                             width={140}
                             height={140}
-                            className="rounded-xl border-2 shadow-lg"
+                            className=""
                           />
                         </div>
                       </div>
@@ -219,7 +219,7 @@ const ProfileFeed = ({ userId }) => {
                     alt="post picture"
                     width={140}
                     height={140}
-                    className="rounded-xl border-2 shadow-lg"
+                    className=""
                   />
                 </div>
               </div>

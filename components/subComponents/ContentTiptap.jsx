@@ -23,7 +23,7 @@ const ContentTiptap =({content}) => {
         editorProps: {
           attributes: {
             class:
-              "prose prose-sm sm:prose lg:prose-lg xl:prose-xl  prose-h1:font-semibold prose-h1:font-serif prose-h2:mb-6 prose-h2:mt-2  mx-auto focus:outline-none",
+              "prose prose-md sm:prose lg:prose-lg xl:prose-xl  prose-h1:font-semibold prose-h1:font-serif prose-h2:mb-6 prose-h2:mt-2  mx-auto focus:outline-none",
           },
         },
         editable: false,

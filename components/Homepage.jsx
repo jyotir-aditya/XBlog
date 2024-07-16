@@ -39,7 +39,7 @@ const Homepage = () => {
                   setSelectedCategory={setSelectedCategory}
                 />
               </div>
-              <div className="RightSection sticky -top-16 mt-[9vh] h-fit w-[25vw] ml-10 overflow-hidden">
+              <div className="RightSection sticky -top-20 mt-[9vh] h-fit w-[25vw] ml-10 overflow-hidden">
                 <RightSection />
               </div>
             </div>

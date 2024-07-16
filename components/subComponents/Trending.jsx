@@ -30,10 +30,10 @@ const Trending = () => {
                 <div className="flex gap-4 items-center mb-2">
                   <Image
                     src={post.user_picture}
-                    height={25}
-                    width={25}
+                    height={28}
+                    width={28}
                     alt="user pic"
-                    className="rounded-lg"
+                    className="rounded-full"
                   />
                   <h2>{post.user_name}</h2>
                 </div>

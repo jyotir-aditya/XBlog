@@ -6,7 +6,7 @@ const SkeletonCard = () => {
     <div className="animate-pulse rounded-md border shadow-md  mx-4 sm:mx-0 sm:w-[50vw] mt-[5px] sm:mt-[0vw] h-fit p-[1vw] backdrop-blur-md flex">
       <div>
       <div className="flex gap-4 align-middle content-center h-fit items-center mb-2">
-        <div className="bg-gray-300 rounded-lg w-8 h-8"></div>
+        <div className="bg-gray-300 rounded-full w-8 h-8"></div>
         <div className="flex-1">
           <div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
           <div className="h-3 bg-gray-300 rounded w-1/4"></div>
@@ -31,7 +31,7 @@ const SkeletonCard = () => {
       </div>
       </div>
       <div className="Picture flex sm:absolute sm:end-0 sm:-translate-y-[3.5vw] h-full mr-2 -translate-x-5 align-middle mt-7 items-center">
-          <div className="PostPicture w-[120px] h-[120px] sm:w-[9vw] sm:h-[9vw] flex align-middle bg-gray-300 rounded-xl"></div>
+          <div className="PostPicture w-[120px] h-[120px] sm:w-[9vw] sm:h-[9vw] flex align-middle bg-gray-300"></div>
         </div>
     </div>
   );

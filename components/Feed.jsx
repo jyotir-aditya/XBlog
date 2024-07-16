@@ -64,7 +64,7 @@ const Feed = ({ selectedCategory }) => {
                     width={30}
                     height={30}
                     alt="user picture"
-                    className="rounded-lg"
+                    className="rounded-full"
                   />
                   <h1 className=" font-medium font-robo">{post.user_name}</h1>
                   <div className="text-gray-400 font-robo  text-sm font-medium">
@@ -96,7 +96,7 @@ const Feed = ({ selectedCategory }) => {
                         alt="post picture"
                         width={140}
                         height={140}
-                        className="rounded-xl bg-slate-600  border-2 shadow-lg"
+                        className=" bg-slate-600  "
                       ></Image>
                     </div>
                   </Link>
