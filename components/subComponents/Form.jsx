@@ -89,11 +89,11 @@ export default function Page() {
   return (
     <div className="min-h-[100vh] h-fit w-full flex justify-center items-center">
       <div className="mt-[10vh]">
-        <div className="Form w-full h-full max-w-[60vw] min-w-[50vw] bg-white shadow-md rounded-xl mb-[2vh] p-[2vw]">
+        <div className="Form w-[90vw] sm:w-full h-full sm:max-w-[60vw] sm:min-w-[50vw] bg-white shadow-md rounded-xl sm:mb-[2vh] mb-[50px] p-[2vw]">
           <div className={`${isVisible ? "block" : "hidden"} flex flex-col`}>
             <div className="flex flex-col ml-2">
               <input
-                className="text-[3vw] font-bold font-robo rounded-md px-4 py-2 outline-none"
+                className="sm:text-[3vw] text-3xl font-bold font-robo rounded-md sm:px-4 py-2 outline-none"
                 placeholder="Heading"
                 type="text"
                 name="title"
@@ -105,7 +105,7 @@ export default function Page() {
             <Tiptap setContent={setContent} />
             <div className="flex justify-center">
               <div
-                className="border-[2px] px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm"
+                className="border-[2px] px-5 py-2 rounded-full cursor-pointer sm:text-[1.2vw] font-robo shadow-sm"
                 onClick={() => setIsVisible(false)}
               >
                 Next
@@ -116,7 +116,7 @@ export default function Page() {
             <div className={`${isVisible ? "hidden" : "block"} h-fit gap-4 space-y-6`}>
               <div className="flex flex-col">
                 <input
-                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   autoComplete="off"
                   placeholder="Image URL"
                   type="text"
@@ -128,7 +128,7 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <textarea
-                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   rows={3}
                   placeholder="Description (30-40 words)"
                   name="description"
@@ -137,7 +137,7 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <input
-                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   autoComplete="off"
                   spellCheck="false"
                   placeholder="Tags (separated by comma)"
@@ -148,7 +148,7 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <Select
-                  className="text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
                   options={categories}
                   onChange={setSelectedCategory}
                   placeholder="Select or type to search a category"
@@ -158,13 +158,13 @@ export default function Page() {
 
               <div className="Button flex gap-4 justify-center">
                 <div
-                  className="border-[2px] px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm"
+                  className="border-[2px] px-5 py-2 rounded-full cursor-pointer sm:text-[1.2vw] font-robo shadow-sm"
                   onClick={() => setIsVisible(true)}
                 >
                   Back
                 </div>
                 <button
-                  className={`border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer text-[1.2vw] font-robo shadow-sm ${loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-700"}`}
+                  className={`border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer sm:text-[1.2vw] font-robo shadow-sm ${loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-700"}`}
                   type="submit"
                   disabled={loading}
                 >

@@ -66,7 +66,7 @@ const EditProfileForm = () => {
       <div className="w-full min-h-[70vh] max-h-fit p-4 bg-white">
         {profile && (
           <form onSubmit={handleSumbit}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1 sm:gap-2">
               <div className="flex gap-4">
                 <Image
                   src={profile.image}
@@ -79,7 +79,7 @@ const EditProfileForm = () => {
                   <label className="mb-2">Profile Picture</label>
                   <div className="ProfilePic w-full flex items-center">
                     <input
-                      className="text-[1.3vw] rounded-md px-4 py-2 border-2 w-full"
+                      className="sm:text-[1.3vw] text-base rounded-md px-4 py-2 border-2 w-full"
                       autoComplete="off"
                       autoCorrect="off"
                       placeholder="Profile image"
@@ -91,9 +91,10 @@ const EditProfileForm = () => {
                   </div>
                 </div>
               </div>
+              
               <label>Name</label>
               <input
-                className="text-[1.3vw] rounded-md px-4 py-2 border-2"
+                className="sm:text-[1.3vw] rounded-md px-4 py-2 border-2"
                 autoComplete="off"
                 autoCorrect="off"
                 placeholder="Name"
@@ -104,7 +105,7 @@ const EditProfileForm = () => {
               />
               <label>Email</label>
               <input
-                className="text-[1.3vw] rounded-md px-4 py-2 border-2"
+                className="sm:text-[1.3vw] rounded-md px-4 py-2 border-2"
                 autoComplete="off"
                 autoCorrect="off"
                 placeholder="Name"
@@ -116,7 +117,7 @@ const EditProfileForm = () => {
               />
               <label>Username</label>
               <input
-                className="text-[1.3vw] rounded-md px-4 py-2 border-2"
+                className="sm:text-[1.3vw] rounded-md px-4 py-2 border-2"
                 autoComplete="off"
                 autoCorrect="off"
                 placeholder="Username"
@@ -128,7 +129,7 @@ const EditProfileForm = () => {
               />
               <label>Cover Image</label>
               <input
-                className="text-[1.3vw] rounded-md px-4 py-2 border-2"
+                className="sm:text-[1.3vw] rounded-md px-4 py-2 border-2"
                 autoComplete="off"
                 autoCorrect="off"
                 placeholder="Cover image"
@@ -138,7 +139,7 @@ const EditProfileForm = () => {
               />
               <label>bio</label>
               <textarea
-                className="text-[1.3vw] rounded-md px-4 py-2 outline-none border-2"
+                className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none border-2"
                 rows={3}
                 placeholder="Bio (30-40 words)"
                 name="bio"

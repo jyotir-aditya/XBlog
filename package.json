@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@auth/pg-adapter": "^1.2.0",
-    "@heroicons/react": "^2.1.4",
+    "@heroicons/react": "^2.1.5",
     "@tailwindcss/typography": "^0.5.13",
     "@tiptap/extension-document": "^2.4.0",
     "@tiptap/extension-heading": "^2.4.0",
