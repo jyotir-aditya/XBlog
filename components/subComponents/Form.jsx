@@ -22,6 +22,7 @@ export default function Page() {
   const router = useRouter();
   const inputFileRef = useRef(null);
   const [fileName, setFileName] = useState(null);
+  
 
   useEffect(() => {
     async function fetchCategories() {
@@ -46,30 +47,48 @@ export default function Page() {
       img.src = url;
     });
   }
+  function validateImageType(file) {
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif","image/webp"];
+    return allowedTypes.includes(file.type);
+  }
 
   async function onSubmit(event) {
     event.preventDefault();
     setData();
+    const maxSizeInBytes = 1048576; // 1MB
     if (session) {
       setLoading(true);
       setErrorMessage(""); // Reset error message
 
-      // const isValidImage = await validateImageURL(imageURL);
-      // if (!isValidImage) {
-      //   setErrorMessage("Invalid image URL. Please enter a valid URL.");
-      //   setLoading(false);
-      //   return;
-      // }
+     //for tiptap
+    
       const file = inputFileRef.current.files[0];
       console.log(file);
+      //type check
+      if (file && !validateImageType(file)) {
+        alert("Invalid file type. Please upload an image.");
+        inputFileRef.current.value = null; // Clear the input value
+        setFileName(null); // Reset the fileName state
+        setLoading(false);
+        return;
+      }
+      //seze check
+      if (file && file.size > maxSizeInBytes) {
+        alert("File too large. Maximum allowed size is 1MB.");
+        inputFileRef.current.value = null; // Clear the input value
+        setFileName(null); // Reset the fileName state
+        setLoading(false);
+        return;
+      }
       const response = await fetch(`/api/upload/post?filename=${file.name}`, {
         method: "POST",
         body: file,
       });
       const newBlob = await response.json();
-      console.log(newBlob);
-      
+      // console.log(newBlob);
+
       validateImageURL(newBlob.url);
+
 
       const formData = new FormData(event.target);
       formData.append("userId", session.user.id);
@@ -201,6 +220,7 @@ export default function Page() {
                   name="file"
                   ref={inputFileRef}
                   type="file"
+                  accept="image/*"
                   onChange={handleChange}
                   // autoComplete="off"
                   // placeholder="Image URL"

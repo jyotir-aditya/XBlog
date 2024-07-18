@@ -14,6 +14,9 @@ import { H1Icon, H2Icon } from "@heroicons/react/24/outline";
 
 const Tiptap = ({ Content, setContent }) => {
   const [ActiveOption, setActiveOption] = useState(null);
+  const [previousImages, setPreviousImages] = useState([]);
+  const [currentImages, setCurrentImages] = useState([]);
+
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -28,12 +31,23 @@ const Tiptap = ({ Content, setContent }) => {
         placeholder: "Your Story...",
       }),
     ],
-    onUpdate({ editor }) {
+    onUpdate: async ({ editor }) => {
       setContent(editor.getJSON());
+      const newImages = editor.getJSON().content?.filter(item => item.type === "image").map(item => item.attrs.src) || [];
+      const deletedImages = previousImages.filter(url => !newImages.includes(url));
+      
+      for (const url of deletedImages) {
+        // console.log("Deleting image from storage:", url);
+        await fetch(`/api/upload/delete?url=${encodeURIComponent(url)}`, {
+          method: "DELETE",
+        });
+      }
+      
+      setPreviousImages(newImages);
+      setCurrentImages(newImages);
     },
   });
 
-  // Load content when the editor is ready and content changes
   useEffect(() => {
     if (editor && Content) {
       editor.commands.setContent(Content);
@@ -41,54 +55,71 @@ const Tiptap = ({ Content, setContent }) => {
   }, [editor, Content]);
 
   const addImage = useCallback(() => {
-    const url = window.prompt("URL");
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*"; // Optionally restrict to image files
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        // console.log(file);
+        const response = await fetch(`/api/upload/post?filename=${file.name}`, {
+          method: "POST",
+          body: file,
+        });
 
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
+        const newBlob = await response.json();
+        const url = newBlob.url;
+        if (url) {
+          editor.chain().focus().setImage({ src: url }).run();
+        }
+      }
+    };
+    input.click();
   }, [editor]);
 
   if (!editor) {
-    return null;
+    return null; // Return early if editor is not initialized
   }
-  // add blockquetoe
+
   return (
     <div className="h-full w-full flex justify-center">
       <div className="w-full">
-        {editor && (
-          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <div className="bubble-menu">
-              <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive("bold") ? "is-active" : ""}
-              >
-                Bold
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={editor.isActive("italic") ? "is-active" : ""}
-              >
-                Italic
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={editor.isActive("strike") ? "is-active" : ""}
-              >
-                Strike
-              </button>
+        {editor && (<div >
+          <BubbleMenu  editor={editor} tippyOptions={{ duration: 500 }} updateDelay={{duration:1000}} >
+            <div  className="bubble-menu flex gap-2">
+              <div >
+                <button
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                  className={editor.isActive("bold") ? "is-active" : ""}
+                >
+                  Bold
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                  className={editor.isActive("italic") ? "is-active" : ""}
+                >
+                  Italic
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                  className={editor.isActive("strike") ? "is-active" : ""}
+                >
+                  Strike
+                </button>
+              </div>
             </div>
-          </BubbleMenu>
+          </BubbleMenu></div>
         )}
         {editor && (
           <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
             <div className="floating-menu translate-y-10 border w-fit rounded-xl px-2 backdrop-blur-xl py-2 mt-2 flex items-center gap-4">
               <button
                 onClick={() => {
-                  if (ActiveOption === "Heading") {
-                    setActiveOption("");
-                  } else {
-                    setActiveOption("Heading");
-                  }
+                  setActiveOption(ActiveOption === "Heading" ? "" : "Heading");
                 }}
                 className="font-bold font-slab"
               >
@@ -97,11 +128,7 @@ const Tiptap = ({ Content, setContent }) => {
 
               <button
                 onClick={() => {
-                  if (ActiveOption === "List") {
-                    setActiveOption("");
-                  } else {
-                    setActiveOption("List");
-                  }
+                  setActiveOption(ActiveOption === "List" ? "" : "List");
                 }}
                 className="font-bold font-slab"
               >
@@ -109,28 +136,20 @@ const Tiptap = ({ Content, setContent }) => {
               </button>
 
               <button onClick={addImage} className="font-bold font-slab">
-                Set image
+                Image
               </button>
             </div>
             {ActiveOption === "Heading" && (
               <div className="absolute mt-12 border rounded-xl py-2 px-2 w-full  flex gap-2">
                 <button
-                  onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 1 }).run()
-                  }
-                  className={`${
-                    editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-                  }  px-2 rounded-lg`}
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                  className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
                 >
                   <H1Icon className="h-[20px] w-[20px]" />
                 </button>
                 <button
-                  onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 3 }).run()
-                  }
-                  className={
-                    editor.isActive("heading", { level: 3 }) ? "is-active" : ""
-                  }
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                  className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
                 >
                   <H2Icon className="h-[20px] w-[20px]" />
                 </button>
@@ -139,18 +158,14 @@ const Tiptap = ({ Content, setContent }) => {
             {ActiveOption === "List" && (
               <div className="absolute mt-12 border rounded-xl py-2  w-full  flex justify-between px-4">
                 <button
-                  onClick={() =>
-                    editor.chain().focus().toggleBulletList().run()
-                  }
-                  className={editor.isActive("bulletList") ? "is-active " : "font-semibold"}
+                  onClick={() => editor.chain().focus().toggleBulletList().run()}
+                  className={editor.isActive("bulletList") ? "is-active font-semibold" : ""}
                 >
                   Bullet list
                 </button>
                 <button
-                  onClick={() =>
-                    editor.chain().focus().toggleOrderedList().run()
-                  }
-                  className={editor.isActive("orderedList") ? "is-active" : "font-semibold"}
+                  onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                  className={editor.isActive("orderedList") ? "is-active font-semibold" : ""}
                 >
                   Ordered list
                 </button>
