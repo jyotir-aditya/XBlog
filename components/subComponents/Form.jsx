@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Tiptap from "../Tiptap";
 import { useRouter } from "next/navigation";
+import { CloudIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -18,7 +19,9 @@ export default function Page() {
   const [imageURL, setImageURL] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const router=useRouter();
+  const router = useRouter();
+  const inputFileRef = useRef(null);
+  const [fileName, setFileName] = useState(null);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -51,19 +54,29 @@ export default function Page() {
       setLoading(true);
       setErrorMessage(""); // Reset error message
 
-      const isValidImage = await validateImageURL(imageURL);
-      if (!isValidImage) {
-        setErrorMessage("Invalid image URL. Please enter a valid URL.");
-        setLoading(false);
-        return;
-      }
+      // const isValidImage = await validateImageURL(imageURL);
+      // if (!isValidImage) {
+      //   setErrorMessage("Invalid image URL. Please enter a valid URL.");
+      //   setLoading(false);
+      //   return;
+      // }
+      const file = inputFileRef.current.files[0];
+      console.log(file);
+      const response = await fetch(`/api/upload/post?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
+      const newBlob = await response.json();
+      console.log(newBlob);
       
+      validateImageURL(newBlob.url);
 
       const formData = new FormData(event.target);
       formData.append("userId", session.user.id);
       formData.append("category", selectedCategory?.value);
       formData.append("content", JSON.stringify(Content));
       formData.append("title", title);
+      formData.append("picture", newBlob.url);
 
       try {
         const response = await fetch("/api/query/newpost", {
@@ -73,7 +86,7 @@ export default function Page() {
         const res = await response.status;
         setData(res);
         console.log(res);
-        if(res===200){
+        if (res === 200) {
           router.push("/");
         }
       } catch (error) {
@@ -85,6 +98,19 @@ export default function Page() {
       console.log("session not found");
     }
   }
+  const handleClick = () => {
+    inputFileRef.current.click();
+  };
+  const handleChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFileName(file.name);
+    }
+  };
+  const handleRemove = () => {
+    inputFileRef.current.value = null; // Clear the input value
+    setFileName(null); // Reset the fileName state
+  };
 
   return (
     <div className="min-h-[100vh] h-fit w-full flex justify-center items-center">
@@ -113,22 +139,15 @@ export default function Page() {
             </div>
           </div>
           <form onSubmit={onSubmit} className="">
-            <div className={`${isVisible ? "hidden" : "block"} h-fit gap-4 space-y-6`}>
-              <div className="flex flex-col">
-                <input
-                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
-                  autoComplete="off"
-                  placeholder="Image URL"
-                  type="text"
-                  name="picture"
-                  value={imageURL}
-                  onChange={(e) => setImageURL(e.target.value)}
-                  required
-                />
-              </div>
+            <div
+              className={`${
+                isVisible ? "hidden" : "block"
+              } h-fit gap-4 space-y-6`}
+            >
+              <div className="flex flex-col"></div>
               <div className="flex flex-col">
                 <textarea
-                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] hover:bg-slate-50 rounded-md px-4 py-2 outline-none"
                   rows={3}
                   placeholder="Description (30-40 words)"
                   name="description"
@@ -137,12 +156,58 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <input
-                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw] hover:bg-slate-50 rounded-md px-4 py-2 outline-none"
                   autoComplete="off"
                   spellCheck="false"
                   placeholder="Tags (separated by comma)"
                   type="text"
                   name="tags"
+                  required
+                />
+              </div>
+              {/* Input design */}
+              <div className="Input">
+                {fileName === null && (
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      onClick={handleClick}
+                      className="flex items-center w-full sm:text-[1.3vw] px-4 py-2 bg-white text-gray-400 rounded-md  hover:bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-opacity-50"
+                    >
+                      <CloudIcon className="w-5 h-5 mr-2 sm:w-[1.5rem] sm:h-[1.5rem]" />
+                      Upload Image
+                    </button>
+                  </div>
+                )}
+                {fileName && (
+                  <div className="flex items-center justify-between sm:text-[1.3vw]  px-4 py-2 w-full text-black">
+                    <div className=" flex items-center">
+                      <PhotoIcon className="w-5 h-5 sm:w-[1.5rem] sm:h-[1.5rem] mr-2" />
+                      {fileName}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemove}
+                      className="flex items-center justify-center px-2 py-2 z-10   text-black rounded-md  hover:text-red-600 focus:outline-none "
+                    >
+                      <TrashIcon className="w-5 h-5 sm:w-[1.5rem] sm:h-[1.5rem] " />
+                    </button>
+                  </div>
+                )}
+
+                {/* Input */}
+                <input
+                  className="sm:text-[1.3vw] text-gray-400 font-robo hidden rounded-md px-4 py-2 outline-none"
+                  name="file"
+                  ref={inputFileRef}
+                  type="file"
+                  onChange={handleChange}
+                  // autoComplete="off"
+                  // placeholder="Image URL"
+                  // type="text"
+                  // name="picture"
+                  // value={imageURL}
+                  // onChange={(e) => setImageURL(e.target.value)}
                   required
                 />
               </div>
@@ -164,7 +229,11 @@ export default function Page() {
                   Back
                 </div>
                 <button
-                  className={`border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer sm:text-[1.2vw] font-robo shadow-sm ${loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-700"}`}
+                  className={`border-[2px] w-fit px-5 py-2 rounded-full cursor-pointer sm:text-[1.2vw] font-robo shadow-sm ${
+                    loading
+                      ? "bg-gray-400"
+                      : "bg-blue-500 text-white hover:bg-blue-700"
+                  }`}
                   type="submit"
                   disabled={loading}
                 >
@@ -173,10 +242,9 @@ export default function Page() {
               </div>
             </div>
           </form>
+          {/* {blob && <div className="mt-6">{blob.url}</div>} */}
           {errorMessage && (
-            <div className="mt-4 text-red-600 text-[1.5vw]">
-              {errorMessage}
-            </div>
+            <div className="mt-4 text-red-600 text-[1.5vw]">{errorMessage}</div>
           )}
           {data && (
             <div className="mt-4 text-green-600 text-[1.5vw]">

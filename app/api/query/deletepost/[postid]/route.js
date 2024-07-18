@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { db } from '@vercel/postgres';
-export async function GET(request, { params }) {
+export async function DELETE(request, { params }) {
     const client = await db.connect();
     const session = await getServerSession();
     const postId=params.postid;

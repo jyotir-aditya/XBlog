@@ -56,12 +56,16 @@ const ProfileFeed = ({ userId }) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         setLoading(true);
-        const response = await fetch(`/api/query/deletepost/${postId}`);
-        const data = await response.json();
-        console.log("Deleted:", data);
-        router.refresh();
-        // Optionally update state or fetch posts again after deletion
-        // fetchProfile(); // Example: Re-fetch posts after deletion
+        const response = await fetch(`/api/query/deletepost/${postId}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          setPosts((prevPosts) => prevPosts.filter((post) => post.post_id !== postId));
+          setOpenMenuIndex(null);
+        } else {
+          const data = await response.json();
+          console.log("Error deleting post:", data);
+        }
       } catch (error) {
         console.error("Error deleting post:", error);
       } finally {
@@ -183,7 +187,7 @@ const ProfileFeed = ({ userId }) => {
                                     <div role="status">
                                       <svg
                                         aria-hidden="true"
-                                        class="inline w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                        className="inline w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                                         viewBox="0 0 100 101"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +201,7 @@ const ProfileFeed = ({ userId }) => {
                                           fill="currentFill"
                                         />
                                       </svg>
-                                      <span class="sr-only">Loading...</span>
+                                      <span className="sr-only">Loading...</span>
                                     </div>
                                     Deleting...
                                   </div>
