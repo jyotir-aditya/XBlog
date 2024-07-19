@@ -17,16 +17,25 @@ const Tiptap = ({ Content, setContent }) => {
   const [previousImages, setPreviousImages] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
 
+  function validateImageType(file) {
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    return allowedTypes.includes(file.type);
+  }
+
   const editor = useEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[80vh] prose prose-lg sm:prose lg:prose-lg xl:prose-xl prose-h1:font-semibold prose-h1:font-robo prose-h3:font-robo prose-h3:mt-2 prose-p:font-robo mx-auto focus:outline-none",
+          "min-h-[80vh] prose prose-lg sm:prose lg:prose-lg xl:prose-xl prose-h1:font-semibold prose-h1:font-robo prose-h3:font-robo prose-h3:mt-2 prose-p:font-robo  mx-auto focus:outline-none",
       },
     },
     extensions: [
       StarterKit,
-      Image,
+      Image.configure({
+        HTMLAttributes: {
+          class: "sm:h-96 h-60  ml-auto mr-auto ",
+        },
+      }),
       Placeholder.configure({
         placeholder: "Your Story...",
       }),
@@ -45,6 +54,21 @@ const Tiptap = ({ Content, setContent }) => {
       
       setPreviousImages(newImages);
       setCurrentImages(newImages);
+      const { selection } = editor.state;
+
+  if (!selection.empty) {
+    // Do not scroll into view when we're doing a mass update (e.g. underlining text)
+    // We only want the scrolling to happen during actual user input
+    return;
+  }
+
+  const viewportCoords = editor.view.coordsAtPos(selection.from);
+  const absoluteOffset = window.scrollY + viewportCoords.top;
+
+  window.scrollTo(
+    window.scrollX,
+    absoluteOffset - (window.innerHeight / 2),
+  );
     },
   });
 
@@ -58,8 +82,19 @@ const Tiptap = ({ Content, setContent }) => {
     var input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*"; // Optionally restrict to image files
+    const maxSizeInBytes = 1048576;
     input.onchange = async (e) => {
       const file = e.target.files[0];
+      if (file && !validateImageType(file)) {
+        alert("Invalid file type. Please upload an image.");
+        input.value = null; // Clear the input value
+        return;
+      }
+      if (file && file.size > maxSizeInBytes) {
+        alert("File too large. Maximum allowed size is 1MB.");
+        input.value = null; // Clear the input value
+        return;
+      }
       if (file) {
         // console.log(file);
         const response = await fetch(`/api/upload/post?filename=${file.name}`, {
@@ -82,11 +117,11 @@ const Tiptap = ({ Content, setContent }) => {
   }
 
   return (
-    <div className="h-full w-full flex justify-center">
+    <div className="h-fit  w-full flex justify-center">
       <div className="w-full">
         {editor && (<div >
           <BubbleMenu  editor={editor} tippyOptions={{ duration: 500 }} updateDelay={{duration:1000}} >
-            <div  className="bubble-menu flex gap-2">
+            <div  className="bubble-menu  border w-fit rounded-xl px-2 backdrop-blur-xl py-2  flex items-center gap-4">
               <div >
                 <button
                   onClick={() => editor.chain().focus().toggleBold().run()}
@@ -116,7 +151,7 @@ const Tiptap = ({ Content, setContent }) => {
         )}
         {editor && (
           <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <div className="floating-menu translate-y-10 border w-fit rounded-xl px-2 backdrop-blur-xl py-2 mt-2 flex items-center gap-4">
+            <div className="floating-menu mt-[70px] border w-fit rounded-xl px-2 backdrop-blur-xl py-2  flex items-center gap-4">
               <button
                 onClick={() => {
                   setActiveOption(ActiveOption === "Heading" ? "" : "Heading");
@@ -140,7 +175,7 @@ const Tiptap = ({ Content, setContent }) => {
               </button>
             </div>
             {ActiveOption === "Heading" && (
-              <div className="absolute mt-12 border rounded-xl py-2 px-2 w-full  flex gap-2">
+              <div className="absolute sm:mt-2 mt-0 border bg-white rounded-xl py-2 px-2 w-full  flex gap-2">
                 <button
                   onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                   className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
@@ -156,7 +191,7 @@ const Tiptap = ({ Content, setContent }) => {
               </div>
             )}
             {ActiveOption === "List" && (
-              <div className="absolute mt-12 border rounded-xl py-2  w-full  flex justify-between px-4">
+              <div className="absolute sm:mt-2 mt-0 bg-white border rounded-xl py-2  w-full  flex justify-between px-4">
                 <button
                   onClick={() => editor.chain().focus().toggleBulletList().run()}
                   className={editor.isActive("bulletList") ? "is-active font-semibold" : ""}

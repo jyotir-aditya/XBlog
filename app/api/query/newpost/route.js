@@ -60,28 +60,59 @@ export async function PUT(request) {
   try {
     const formData = await request.formData();
     const postId = formData.get("post_id");
+
+    const fieldsToUpdate = [];
+    const values = [];
+    let valueIndex = 1;
+
+    const addFieldToUpdate = (field, value) => {
+      if (value !== null && value !== undefined) {
+        fieldsToUpdate.push(`${field} = $${valueIndex}`);
+        values.push(value);
+        valueIndex++;
+      }
+    };
+
     const title = formData.get("title");
     const picture = formData.get("picture");
     const desc = formData.get("description");
-    const content = JSON.parse(formData.get("content")); // Parse JSON content
-    const tags = formData.get("tags").split(",").map((tag) => tag.trim());
+    const content = formData.get("content") ? JSON.parse(formData.get("content")) : null;
+    const tags = formData.get("tags") ? formData.get("tags").split(",").map((tag) => tag.trim()) : null;
     const userId = formData.get("userId");
-    const slug = generateSlug(title); // Generate slug
     const category = formData.get("category");
 
-    console.log(title, picture, desc, content, tags, userId, slug, category);
+    addFieldToUpdate("title", title);
+    addFieldToUpdate("picture", picture);
+    addFieldToUpdate("description", desc);
+    addFieldToUpdate("content", content ? JSON.stringify(content) : null);
+    addFieldToUpdate("tags", tags);
+    addFieldToUpdate("user_id", userId);
+    addFieldToUpdate("category_id", category);
 
-    const result = await client.query(
-      "UPDATE posts SET title = $1, picture = $2, description = $3, content = $4, tags = $5, slug = $6, user_id = $7, category_id = $8 WHERE id = $9 RETURNING *",
-      [title, picture, desc, JSON.stringify(content), tags, slug, userId, category, postId]
-    );
+    if (title !== null && title !== undefined) {
+      const slug = generateSlug(title);
+      addFieldToUpdate("slug", slug);
+    }
 
-    console.log(result.rows[0]);
+    if (fieldsToUpdate.length === 0) {
+      return new Response("No fields to update", { status: 400 });
+    }
+
+    const query = `
+      UPDATE posts
+      SET ${fieldsToUpdate.join(", ")}
+      WHERE id = $${valueIndex}
+      RETURNING *
+    `;
+    values.push(postId);
+
+    const result = await client.query(query, values);
+
     return new Response(JSON.stringify(result.rows[0]), {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      status: 200
+      status: 200,
     });
   } catch (error) {
     console.error("Error executing query:", error);
@@ -90,4 +121,5 @@ export async function PUT(request) {
     await client.release();
   }
 }
+
 

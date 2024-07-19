@@ -16,13 +16,12 @@ export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [Content, setContent] = useState("");
   const [title, setTitle] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  // const [imageURL, setImageURL] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const inputFileRef = useRef(null);
   const [fileName, setFileName] = useState(null);
-  
 
   useEffect(() => {
     async function fetchCategories() {
@@ -48,7 +47,7 @@ export default function Page() {
     });
   }
   function validateImageType(file) {
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif","image/webp"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     return allowedTypes.includes(file.type);
   }
 
@@ -60,10 +59,10 @@ export default function Page() {
       setLoading(true);
       setErrorMessage(""); // Reset error message
 
-     //for tiptap
-    
+      
+
       const file = inputFileRef.current.files[0];
-      console.log(file);
+      // console.log(file);
       //type check
       if (file && !validateImageType(file)) {
         alert("Invalid file type. Please upload an image.");
@@ -87,8 +86,15 @@ export default function Page() {
       const newBlob = await response.json();
       // console.log(newBlob);
 
-      validateImageURL(newBlob.url);
+      const isValidImage = await validateImageURL(newBlob.url);
 
+      // const isValidImage = await validateImageURL(imageURL);
+      if (!isValidImage) {
+        setErrorMessage("Invalid image URL. Server Error.");
+        inputFileRef.current.value = null;
+        setLoading(false);
+        return;
+      }
 
       const formData = new FormData(event.target);
       formData.append("userId", session.user.id);
@@ -132,7 +138,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-[100vh] h-fit w-full flex justify-center items-center">
+    <div className="sm:min-h-[100vh] mb-[20px]  h-fit w-full flex sm:mb-0 justify-center items-center">
       <div className="mt-[10vh]">
         <div className="Form w-[90vw] sm:w-full h-full sm:max-w-[60vw] sm:min-w-[50vw] bg-white shadow-md rounded-xl sm:mb-[2vh] mb-[50px] p-[2vw]">
           <div className={`${isVisible ? "block" : "hidden"} flex flex-col`}>
@@ -231,13 +237,15 @@ export default function Page() {
                   required
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col ">
                 <Select
-                  className="sm:text-[1.3vw] rounded-md px-4 py-2 outline-none"
+                  className="sm:text-[1.3vw]  rounded-md px-4 py-2 outline-none"
                   options={categories}
+                  maxMenuHeight={180}
                   onChange={setSelectedCategory}
                   placeholder="Select or type to search a category"
                   isClearable
+                  required
                 />
               </div>
 

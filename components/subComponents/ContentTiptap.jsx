@@ -16,7 +16,7 @@ const ContentTiptap =({content}) => {
           StarterKit,
           Image.configure({
             HTMLAttributes: {
-              class: "h-96",
+              class: "sm:h-96 h-60 ml-auto mr-auto ",
             },
           }),
         ],
