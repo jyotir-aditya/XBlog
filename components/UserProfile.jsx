@@ -72,7 +72,7 @@ const UserProfile = ({ username }) => {
                 {Profile.bio}
               </h2>
             </div>
-            <div className="mb-[60px]">
+            <div className="mb-[70px]">
               <ProfileFeed userId={Profile.id} />
             </div>
           </div>

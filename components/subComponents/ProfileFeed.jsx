@@ -171,10 +171,10 @@ const ProfileFeed = ({ userId }) => {
                             onClick={() => handleMenuToggle(index)}
                           />
                           {openMenuIndex === index && (
-                            <div className="absolute z-50 mt-2  w-[150px] -translate-x-[110px] bg-white border rounded-md shadow-lg">
+                            <div className={`absolute z-50 mt-2 ${Posts.length-1 ==index&& "-translate-y-[125px] sm:-translate-y-3"}  w-[150px] -translate-x-[110px] bg-white border rounded-md shadow-lg`}>
                               <div
                                 onClick={() => editClickHandler(post.slug)}
-                                className="py-2 px-4 cursor-pointer hover:bg-gray-100"
+                                className="py-2 px-4 cursor-pointer border-b sm:border-0 hover:bg-gray-100"
                               >
                                 Edit
                               </div>
