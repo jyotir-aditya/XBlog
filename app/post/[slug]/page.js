@@ -1,8 +1,8 @@
 import Follow from "@/components/Follow";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
+import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
 import Image from "next/image";
 import React from "react";
-
 
 export async function generateStaticParams() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -18,10 +18,7 @@ export async function generateStaticParams() {
   } catch (error) {
     console.error(`Error fetching slugs: ${error.message}`);
     // Use fallback data if API request fails
-    posts = [
-      { slug: "example-slug-1" },
-      { slug: "example-slug-2" }
-    ];
+    posts = [{ slug: "example-slug-1" }, { slug: "example-slug-2" }];
   }
 
   return posts.map((post) => ({
@@ -44,9 +41,8 @@ async function getData(slug) {
     next: { revalidate: 3600 },
   });
 
-  async function follow(){
+  async function follow() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
   }
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
@@ -61,6 +57,7 @@ async function getData(slug) {
 
 const page = async ({ params }) => {
   const data = await getData(params.slug);
+  console.log(data);
   return (
     <div className="w-full flex justify-center">
       <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
@@ -87,34 +84,44 @@ const page = async ({ params }) => {
               className="rounded-full"
             />
             <div className="Infotext  w-full ml-5 flex flex-col">
-              <div className="flex justify-between gap-8">
-              <div className="font-robo font-medium">{data.name}{data.username}</div>
-              <div className="text-gray-400 hidden sm:flex align-middle content-center items-center gap-3">Publised on  <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>{formatDate(data.created_at)}</div>
+              <div className="flex  justify-between gap-8">
+                <div className="font-robo font-medium">
+                  {data.name}            
+                </div>
+                <div className="text-gray-400 hidden sm:flex align-middle content-center items-center gap-3">
+                  Publised on{" "}
+                  <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>
+                  {formatDate(data.created_at)}
+                </div>
               </div>
-              <div className="Downelements w-fit">
-                <Follow id={data.user_id}/>
+              <div className="flex justify-between">
+                <div className="Downelements w-fit ">
+                <Follow id={data.user_id} />
               </div>
+              <div className="flex items-center text-sm ">
+                <NoOfFollowers id={data.user_id}/></div>
+              </div>
+                
+              
             </div>
           </div>
         </div>
         <div className="Image mt-[2vh]">
-          
           <div className="flex justify-center ">
             <Image
               src={data.picture}
               alt="Post image"
               width={750}
-              height={200}              
+              height={200}
               className="rounded-xl h-[35vh]  sm:h-[60vh] sm:w-[45vw] w-full"
             />
           </div>
-         
         </div>
         <div className="Content mt-[4vh]">
           {/* <p className="text-[1.6vw] font-robo leading-[2.5vw] tracking-widest">
             {data.content}
           </p> */}
-          <ContentTiptap content={data.content}/>
+          <ContentTiptap content={data.content} />
         </div>
         <div className="Tags mt-[2vw]">
           <div className="flex gap-6">

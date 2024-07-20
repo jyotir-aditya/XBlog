@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useDebouncedCallback } from "use-debounce";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Filter from "./Filter";
+import Link from "next/link";
 
 const Search = ({ selectedCategory, setSelectedCategory }) => {
   const [term, setTerm] = useState("");
@@ -12,6 +13,8 @@ const Search = ({ selectedCategory, setSelectedCategory }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
   //enter handle
   function handleEnter(value) {
     const params = new URLSearchParams(searchParams);
@@ -73,6 +76,23 @@ const Search = ({ selectedCategory, setSelectedCategory }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollY]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !inputRef.current.contains(event.target)
+      ) {
+        setIsFocused(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       className="mb-5 fixed  z-50 w-[25vw] "
@@ -89,9 +109,9 @@ const Search = ({ selectedCategory, setSelectedCategory }) => {
           <input
             className="block text-base font-robo w-full rounded-md border border-gray-200 py-2 pl-10 outline-none placeholder:text-gray-500"
             placeholder="Search"
+            ref={inputRef}
             onChange={(e) => setTerm(e.target.value)}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
             onKeyDown={(e) => {
               e.key == "Enter" && handleEnter(term);
             }}
@@ -99,20 +119,22 @@ const Search = ({ selectedCategory, setSelectedCategory }) => {
           />
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
         </div>
-        
       </div>
-      {isFocused&&result && (
+      <div ref={dropdownRef} className="sm:w-[35vw] w-[90vw] absolute z-50">
+        {isFocused && result && (
           <div className="min-h-[20vh] mt-4">
             {result.length > 0 ? (
               <div className="z-50 bg-white border p-2 rounded-xl min-h-[10vh] max-h-[55vh] overflow-y-auto">
                 <ul>
                   {result.map((item, index) => (
-                    <li key={index} className="py-2 border-b">
-                      <h2 className="text-lg font-semibold">{item.title}</h2>
-                      <p className="text-sm text-gray-500">
-                        {item.description}
-                      </p>
-                    </li>
+                    <Link href={`/post/${item.slug}`} key={index}>
+                      <li key={index} className="py-2 border-b">
+                        <h2 className="text-lg font-semibold">{item.title}</h2>
+                        <p className="text-sm text-gray-500">
+                          {item.description}
+                        </p>
+                      </li>
+                    </Link>
                   ))}
                 </ul>
               </div>
@@ -121,6 +143,7 @@ const Search = ({ selectedCategory, setSelectedCategory }) => {
             )}
           </div>
         )}
+      </div>
     </div>
   );
 };

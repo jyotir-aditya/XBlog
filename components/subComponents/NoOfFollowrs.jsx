@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from 'react';
 
 async function getFollowers(id) {
@@ -29,7 +30,7 @@ const NoOfFollowers = ({ id }) => {
   }
 
   return (
-    <div className='text-[13px] font-robo text-gray-500'>{followersCount} Followers</div>
+    <div className=' font-robo text-gray-400'>{followersCount} Followers</div>
   );
 }
 

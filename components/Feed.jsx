@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "./subComponents/SkeletonCard";
+import Profile from "./Profile";
 
 // Import the SkeletonCard component
 
@@ -58,6 +59,7 @@ const Feed = ({ selectedCategory }) => {
             className="Card rounded-md border shadow-md bottom-2 mx-4 sm:mx-0 sm:w-[50vw] mt-[10px]  sm:mt-[2vw] h-fit p-[1vw] backdrop-blur-md "
           >
             <div className="PostTextandPicture overflow-hidden   w-full">
+              <Link href={`${post.username}`} >
                 <div className="TopElement flex gap-4 align-middle content-center h-fit  items-center mb-2">
                   <Image
                     src={post.user_picture}
@@ -71,6 +73,7 @@ const Feed = ({ selectedCategory }) => {
                     {formatDate(post.created_at)}
                   </div>
                 </div>
+                </Link>
               <div className="Structure overflow-hidden w-full flex justify-between">
                 <div className="inner-element ">
                   <div className="Text flex flex-col h-fit justify-between">

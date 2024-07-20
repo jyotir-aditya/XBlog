@@ -94,9 +94,9 @@ const SearchBar = () => {
           />
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[25px] w-[25px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
         </div>
-        <div ref={dropdownRef} className="sm:w-[35vw] w-[90vw] absolute z-50">
+        <div ref={dropdownRef} >
           {isFocused && term && result && (
-            <div className="min-h-[20vh] max-h-[55vh] overflow-y-auto shadow-md border-black">
+            <div className="min-h-[20vh] max-h-[55vh] overflow-y-auto absolute z-50 shadow-md border-black">
               {result.length > 0 ? (
                 <div className="z-50 bg-white border p-2">
                   <ul>
