@@ -26,7 +26,7 @@ const NoOfFollowers = ({ id }) => {
   }, [id]);
 
   if (followersCount === null) {
-    return <div>Loading...</div>;
+    return <div className='font-robo text-gray-400'>Loading...</div>;
   }
 
   return (
