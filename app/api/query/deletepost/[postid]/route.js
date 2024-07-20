@@ -1,5 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { db } from '@vercel/postgres';
+import { del } from "@vercel/blob";
+
 export async function DELETE(request, { params }) {
     const client = await db.connect();
     const session = await getServerSession();
@@ -31,6 +33,26 @@ export async function DELETE(request, { params }) {
         if (postResult.rows.length === 0) {
           return new Response(JSON.stringify({ message: 'You are not authorized to delete this post' }), { status: 403 });
         }
+        //blob img delete
+      const res =await client.query('SELECT * FROM posts WHERE id = $1 AND user_id = $2', [postId, userId]);
+      console.log(res.rows[0]);
+      const data=res.rows[0];
+      var delItems=[];
+      delItems.push(data.picture);
+      const content =JSON.parse(data.content)
+      content.content.forEach(element => {
+        if(element.type==="image"){
+          delItems.push(element.attrs.src);
+        }
+      });
+      console.log(delItems);
+      try {
+        delItems.forEach(async(item)=>{
+          await del(item);
+        })
+      } catch (e) {
+        return new Response(JSON.stringify({ message: 'Internal server error deleting img' }), { status: 500 });
+      }
     
         // Delete the post
         await client.query('DELETE FROM posts WHERE id = $1 AND user_id = $2', [postId, userId]);
