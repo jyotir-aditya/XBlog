@@ -62,20 +62,7 @@ export async function DELETE(request, { params }) {
         return new Response(JSON.stringify({ message: 'Internal server error' }), { status: 500 });
       }
       
-    //   try {
-    //     // const data = await client.query("SELECT * FROM xusers WHERE email = $1", [userEmail]);
-    //     console.log(data.rows[0]);
-    //     return new Response(JSON.stringify(data.rows[0]), {
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       }
-    //     });
-    //   } catch (error) {
-    //     console.error('Error fetching user data:', error);
-    //     return new Response("Internal Server Error", { status: 500 });
-    //   }finally{
-    //     await client.release();
-    //   }
+    
      } 
     else {
       console.log("Session or session.user is undefined");

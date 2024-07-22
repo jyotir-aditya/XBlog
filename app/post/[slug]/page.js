@@ -1,4 +1,6 @@
 import Follow from "@/components/Follow";
+import NoOfViews from "@/components/Post/NoOfViews";
+import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
 import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
 import { ClockIcon } from "@heroicons/react/24/outline";
@@ -86,23 +88,27 @@ const page = async ({ params }) => {
             />
             <div className="Infotext  w-full ml-5 flex flex-col">
               <div className="flex  justify-between gap-8">
-                <div className="font-robo font-medium">
-                  {data.name}            
-                </div>
-                <div className="text-gray-400 flex text-sm sm:text-base font-robo  sm:flex align-middle content-center items-center gap-1 sm:gap-3">
-                  <div className="hidden sm:flex items-center gap-3">Publised on{" "}<div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div></div>
-                  <ClockIcon className="w-[15px] h-[15px] sm:hidden block"/>{formatDate(data.created_at)}
+                <div className="font-robo font-medium">{data.name}</div>
+                <div className="text-gray-400  flex text-sm sm:text-base font-robo  sm:flex align-middle content-center items-center gap-1 sm:gap-3">
+                  <div className="hidden sm:flex items-center gap-3">
+                    Publised on{" "}
+                    <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>
+                  </div>
+                  <ClockIcon className="w-[15px] h-[15px] sm:hidden block" />
+                  {formatDate(data.created_at)}
                 </div>
               </div>
               <div className="flex justify-between">
                 <div className="Downelements w-fit ">
-                <Follow id={data.user_id} />
+                  <Follow id={data.user_id} />
+                </div>
+                <div></div>
+                <div className="flex gap-4 items-center sm:text-sm text-base ">
+                  {/* <NoOfFollowers id={data.user_id} /> */}
+                  <NoOfViews postId={data.post_id} />
+                </div>
               </div>
-              <div className="flex items-center sm:text-sm text-base ">
-                <NoOfFollowers id={data.user_id}/></div>
-              </div>
-                
-              
+              <PostView postId={data.post_id} />
             </div>
           </div>
         </div>
