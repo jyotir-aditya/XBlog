@@ -1,9 +1,10 @@
 import Follow from "@/components/Follow";
 import NoOfViews from "@/components/Post/NoOfViews";
+import TopLike from "@/components/Post/TopLike";
 import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
 import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
 
@@ -143,6 +144,9 @@ const page = async ({ params }) => {
         </div>
 
         {/* <div>{data.user_id}</div> */}
+      </div>
+      <div className="hidden sm:block mt-[300px]">
+       <TopLike postId={data.post_id}/>
       </div>
     </div>
   );
