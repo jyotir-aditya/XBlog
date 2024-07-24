@@ -3,7 +3,7 @@ import NoOfViews from "@/components/Post/NoOfViews";
 import TopLike from "@/components/Post/TopLike";
 import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
-import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
+// import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
