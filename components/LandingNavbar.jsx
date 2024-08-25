@@ -115,7 +115,7 @@ const  Header = () => {
     <div>
       <motion.div
         ref={headerRef}
-        className="fixed border-b-2 shadow-sm top-0 z-[999] w-full px-2 sm:px-20 py-2 backdrop-blur-sm flex justify-between items-center overflow-hidden"
+        className="fixed  top-0 z-[999] w-full px-2 sm:px-20 py-2 backdrop-blur-sm flex justify-between items-center overflow-hidden"
         animate={{
           y: isVisible ? 0 : "-100vh", // Animate y-position on visibility change
           transition: { duration: 0.3 }, // Adjust transition duration as needed
@@ -146,9 +146,9 @@ const  Header = () => {
             <button onClick={()=>signIn('google')} className="">Sign in</button>
             <button onClick={()=>signIn('google',{callbackUrl: '/profile'})} className="">Write</button>
             <button className="">About us</button>
+            <button onClick={()=>signIn('google')}>Get Started</button>
           </div>
 
-          <PriamaryButton onClick={()=>signIn('google')} text="Get Started" />
         </div>
 
         {/* Mobile */}

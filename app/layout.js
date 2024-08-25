@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
 import logo from "../public/Images/icon.png";
 import TabBar from "@/components/TabBar";
+import Script from 'next/script';
 
 const roboto=Roboto({
   subsets:["latin"],
@@ -37,6 +38,9 @@ export default async function RootLayout({ children }) {
     return (
     <SessionWraper>
       <html lang="en">
+      <head>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      </head>
         <body className={`${roboto_slab.variable} ${roboto_condensed.variable} ${roboto.variable} `}>
           <MainNavbar/>
           {children}
