@@ -74,6 +74,8 @@ import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import PriamaryButton from "./subComponents/PriamaryButton";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 async function getSession(){
   const session = await getServerSession();
@@ -109,7 +111,7 @@ const  Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   });
 
-  const links = ["Services", "Our Work", "About Us", "Contact Us"];
+  const links = [{name:"Sign in",onClick:()=>signIn('google')}, {name:"Write",onClick:()=>signIn('google',{callbackUrl: '/profile'})}, {name:"About Us",onClick:()=>signIn('google',{callbackUrl: '/profile'})}, {name:"Get Started",onClick:()=>signIn('google')}];
 
   return (
     <div>
@@ -152,6 +154,7 @@ const  Header = () => {
         </div>
 
         {/* Mobile */}
+        <Bars3Icon onClick={()=>menuHandler()} className="block sm:hidden h-[35px] w-[35px] mr-4 " />
         {/* <div className="sm:hidden">
           <div className="w-full flex justify-end">
             <IoMenu
@@ -180,23 +183,24 @@ const  Header = () => {
       {isVisible && isMenu && (
         <div
           style={{
-            backgroundColor: "transparent",
-            backdropFilter: "blur(20px)",
-            backgroundImage: `linear-gradient(120deg, rgba(191, 246, 195, 0.7), rgba(172, 225, 175, 0.5))`,
+            // backgroundColor: "transparent",
+            // backdropFilter: "blur(20px)",
+            // backgroundImage: `linear-gradient(120deg, rgba(191, 246, 195, 0.7), rgba(172, 225, 175, 0.5))`,
           }}
-          className="fixed z-50 sm:hidden mt-[14vh] p-4 rounded-lg ml-[20vh]  w-fit flex flex-col gap-[2vh]"
+          className="fixed z-50 bg-white border-2 border-black sm:hidden mt-[10vh] p-4 rounded-md right-10  w-fit flex flex-col gap-[2vh]"
         >
-          {/* {links.map((item, index) => {
+          {links.map((item, index) => {
             return (
               <div
+              onClick={item.onClick}
+                className="Links w-fit font-medium  rounded-lg " 
                 key={index}
-                className="Links w-[40vw] font-medium  rounded-lg "
               >
-                <p className="text-[3vh] text-center ">{item}</p>
-                <div className="border-[1px] border-green-700 " />
+                <p className="text-[3vh] font-robo text-center ">{item.name}</p>
+                {/* <div className="border-[1px] border-green-700 " /> */}
               </div>
             );
-          })} */}
+          })}
         </div>
       )}
     </div>

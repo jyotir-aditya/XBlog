@@ -5,7 +5,8 @@ const layout = ({children}) => {
   return (
     <div>
         {children}
-        <Footer/>
+        <div className='mb-[10vh]'>
+        <Footer/></div>
     </div>
   )
 }

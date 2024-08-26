@@ -107,10 +107,10 @@ const MainNavbar = () => {
         </Link></div>
 
 
-        <div className="flex gap-8 pr-4">
+        <div className="flex gap-8 pr-1 sm:pr-4">
           <div className="text-lg text-gray-600 font-medium font-robo flex gap-8 justify-between items-center">
             <Link href={"/"}>
-              <button className="flex gap-2 items-center">
+              <button className="hidden sm:flex gap-2 items-center">
                 <HomeIcon className="w-[20px] h-[20px]" />
                 Home
               </button>

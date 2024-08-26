@@ -3,7 +3,7 @@ import PayButton from './PayButton'
 const MembersipCard = ({name,price,features}) => {
   return (
     <div>
-        <div className="w-[25vw] h-fit bg-[#FDF9F9] border-2 border-black rounded-lg">
+        <div className="w-[80vw] sm:w-[25vw] h-fit bg-[#FDF9F9] border-2 border-black rounded-lg">
             <div className="CardInnerStructure w-full p-8">
               <h1 className="text-2xl font-medium font-robo">{name}</h1>
               <div className="flex items-baseline">
