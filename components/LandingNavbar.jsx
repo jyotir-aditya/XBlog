@@ -67,7 +67,7 @@
 // };
 
 // export default Navbar;
-"use client"
+"use client";
 import logo from "../public/Images/icon.png";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
@@ -77,17 +77,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
-async function getSession(){
+async function getSession() {
   const session = await getServerSession();
-  return session
+  return session;
 }
 
-const  Header = () => {
+const Header = () => {
   const headerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true); // Track visibility state
   const prevScrollY = useRef(0); // Track previous scroll position
   const [isMenu, setMenu] = useState(false);
-
 
   function menuHandler() {
     setMenu((prev) => !prev);
@@ -111,7 +110,18 @@ const  Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   });
 
-  const links = [{name:"Sign in",onClick:()=>signIn('google')}, {name:"Write",onClick:()=>signIn('google',{callbackUrl: '/profile'})}, {name:"About Us",onClick:()=>signIn('google',{callbackUrl: '/profile'})}, {name:"Get Started",onClick:()=>signIn('google')}];
+  const links = [
+    { name: "Sign in", onClick: () => signIn("google") },
+    {
+      name: "Write",
+      onClick: () => signIn("google", { callbackUrl: "/profile" }),
+    },
+    {
+      name: "About Us",
+      onClick: () => signIn("google", { callbackUrl: "/profile" }),
+    },
+    { name: "Get Started", onClick: () => signIn("google") },
+  ];
 
   return (
     <div>
@@ -123,38 +133,51 @@ const  Header = () => {
           transition: { duration: 0.3 }, // Adjust transition duration as needed
         }}
       >
-        <div className="hidden sm:block">
-        <Image
-          alt="logo"
-          src={logo}
-          style={{ objectFit: "cover" }}
-          priority="false"
-          height={60}
-          width={60}
-        /></div>
-        {/* for mobile */}
-        <div className="sm:hidden">
-        <Image
-          alt="logo"
-          src={logo}
-          style={{ objectFit: "cover" }}
-          priority="false"
-          height={50}
-          width={50}
-        /></div>
+        <Link href={"/"}>
+          <div className="hidden sm:block">
+            <Image
+              alt="logo"
+              src={logo}
+              style={{ objectFit: "cover" }}
+              priority="false"
+              height={60}
+              width={60}
+            />
+          </div>
+          {/* for mobile */}
+          <div className="sm:hidden">
+            <Image
+              alt="logo"
+              src={logo}
+              style={{ objectFit: "cover" }}
+              priority="false"
+              height={50}
+              width={50}
+            />
+          </div>
+        </Link>
 
         <div className="flex gap-4 sm:gap-8">
           <div className="text-base hidden sm:flex sm:text-[1.2vw] font-robo  gap-4 sm:gap-8 justify-between ">
-            <button onClick={()=>signIn('google')} className="">Sign in</button>
-            <button onClick={()=>signIn('google',{callbackUrl: '/profile'})} className="">Write</button>
+            <button onClick={() => signIn("google")} className="">
+              Sign in
+            </button>
+            <button
+              onClick={() => signIn("google", { callbackUrl: "/profile" })}
+              className=""
+            >
+              Write
+            </button>
             <button className="">About us</button>
-            <button onClick={()=>signIn('google')}>Get Started</button>
+            <button onClick={() => signIn("google")}>Get Started</button>
           </div>
-
         </div>
 
         {/* Mobile */}
-        <Bars3Icon onClick={()=>menuHandler()} className="block sm:hidden h-[35px] w-[35px] mr-4 " />
+        <Bars3Icon
+          onClick={() => menuHandler()}
+          className="block sm:hidden h-[35px] w-[35px] mr-4 "
+        />
         {/* <div className="sm:hidden">
           <div className="w-full flex justify-end">
             <IoMenu
@@ -182,18 +205,20 @@ const  Header = () => {
       </motion.div>
       {isVisible && isMenu && (
         <div
-          style={{
-            // backgroundColor: "transparent",
-            // backdropFilter: "blur(20px)",
-            // backgroundImage: `linear-gradient(120deg, rgba(191, 246, 195, 0.7), rgba(172, 225, 175, 0.5))`,
-          }}
+          style={
+            {
+              // backgroundColor: "transparent",
+              // backdropFilter: "blur(20px)",
+              // backgroundImage: `linear-gradient(120deg, rgba(191, 246, 195, 0.7), rgba(172, 225, 175, 0.5))`,
+            }
+          }
           className="fixed z-50 bg-white border-2 border-black sm:hidden mt-[10vh] p-4 rounded-md right-10  w-fit flex flex-col gap-[2vh]"
         >
           {links.map((item, index) => {
             return (
               <div
-              onClick={item.onClick}
-                className="Links w-fit font-medium cursor-pointer  rounded-lg " 
+                onClick={item.onClick}
+                className="Links w-fit font-medium cursor-pointer  rounded-lg "
                 key={index}
               >
                 <p className="text-[3vh] font-robo text-center ">{item.name}</p>

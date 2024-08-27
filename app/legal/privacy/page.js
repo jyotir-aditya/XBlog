@@ -1,8 +1,12 @@
 import React from "react";
 
+export const metadata ={
+  title:"Privacy Policy"
+}
+
 const page = () => {
   return (
-    <div className="bg-gray-100 text-gray-800 pt-6">
+    <div className="bg-gray-100 text-gray-800 pt-8">
       <div className="container sm:w-[50vw] mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>

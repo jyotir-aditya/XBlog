@@ -25,12 +25,27 @@ const roboto_slab = Roboto_Slab({
 })
 
 export const metadata = {
-  title: 'XBlog',
-  description: 'Here you can share your thoughts.',
-  keywords: ["XBlog", "Blog", "Share", "Write"],
-  
-
-}
+  title: { default: 'XBlog', template: "%s - XBlog" },
+  description: 'XBlog is a vibrant community where you can share your thoughts, explore diverse topics, and connect with like-minded individuals. Whether you want to read insightful content, write your own blog posts, or engage in meaningful discussions, XBlog offers a platform for your voice to be heard.',
+  keywords: ["XBlog", "Blogging Platform", "Share Your Voice", "Write and Publish", "Community of Writers", "Inspiration", "Creative Writing"],
+  openGraph: {
+    title: 'XBlog - Where Your Voice Matters',
+    description: 'Join XBlog to share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers.',
+    url: 'https://www.xblog.co.in',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'XBlog - Where Your Voice Matters',
+    description: 'Share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers on XBlog.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    'max-snippet': '-1',
+    'max-image-preview': 'large',
+    'max-video-preview': '-1',
+  },
+};
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession();

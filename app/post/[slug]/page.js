@@ -8,6 +8,24 @@ import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
 
+export async function generateMetadata({ params }) {
+  const slug = params.slug;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${apiUrl}/api/query/${slug}`);
+  const data = await res.json();
+  return {
+    title: data.title,
+    description: data.description,
+    openGraph: {
+      images: [
+        {
+          url: data.image,
+        },
+      ],
+    },
+  };
+}
+
 export async function generateStaticParams() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   let posts = [];
@@ -81,6 +99,7 @@ const page = async ({ params }) => {
         <div className="UserInfo">
           <div className="flex p-3 rounded-xl sm:rounded-3xl border sm:shadow-md">
             <Image
+              priority={true}
               src={data.image}
               width={50}
               alt="profile"
@@ -146,7 +165,7 @@ const page = async ({ params }) => {
         {/* <div>{data.user_id}</div> */}
       </div>
       <div className="hidden sm:block mt-[300px]">
-       <TopLike postId={data.post_id}/>
+        <TopLike postId={data.post_id} />
       </div>
     </div>
   );
