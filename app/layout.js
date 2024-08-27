@@ -29,23 +29,14 @@ export const metadata = {
   description: 'XBlog is a vibrant community where you can share your thoughts, explore diverse topics, and connect with like-minded individuals. Whether you want to read insightful content, write your own blog posts, or engage in meaningful discussions, XBlog offers a platform for your voice to be heard.',
   keywords: ["XBlog", "Blogging Platform", "Share Your Voice", "Write and Publish", "Community of Writers", "Inspiration", "Creative Writing"],
   openGraph: {
-    title: 'XBlog - Where Your Voice Matters',
+    title: 'XBlog - Connecting Minds, Sharing Stories',
     description: 'Join XBlog to share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers.',
     url: 'https://www.xblog.co.in',
-    // images: [
-    //   {
-    //     url: '\opengraph-image.jpg', // Ensure this path is correct relative to the public directory
-    //     width: 1200, 
-    //     height: 630, 
-    //     alt: 'XBlog - Share Your Voice',
-    //   },
-    // ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'XBlog - Where Your Voice Matters',
+    title: 'XBlog - Connecting Minds, Sharing Stories',
     description: 'Share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers on XBlog.',
-    // image: '/opengraph-image.jpg', // Add this line to reference the image for Twitter as well
   },
   robots: {
     index: true,
