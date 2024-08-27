@@ -73,7 +73,7 @@ const SearchPage = () => {
   }
 
   return (
-    <div className="flex justify-center mb-[55px] sm:mb-[1px]">
+    <div className="flex justify-center mb-[10vh] sm:mb-[1px]">
       <div className=" w-full sm:w-[55vw] h-full sm:mb-[30px] mt-[9vh]">
         <div className="InnerStructure h-full w-full sm:w-[50vw] border-t ">
           <div className="sm:w-[35vw] w-[90vw] z-50 ml-[5vw] mt-2">

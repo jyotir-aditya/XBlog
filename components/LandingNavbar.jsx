@@ -193,7 +193,7 @@ const  Header = () => {
             return (
               <div
               onClick={item.onClick}
-                className="Links w-fit font-medium  rounded-lg " 
+                className="Links w-fit font-medium cursor-pointer  rounded-lg " 
                 key={index}
               >
                 <p className="text-[3vh] font-robo text-center ">{item.name}</p>

@@ -96,9 +96,9 @@ const SearchBar = () => {
         </div>
         <div ref={dropdownRef} >
           {isFocused && term && result && (
-            <div className="min-h-[20vh] max-h-[55vh] overflow-y-auto absolute z-50 shadow-md border-black">
+            <div className="min-h-[20vh] max-h-[55vh] w-[90vw] sm:w-[35vw] overflow-y-auto absolute z-50 shadow-md border-black">
               {result.length > 0 ? (
-                <div className="z-50 bg-white border p-2">
+                <div className="z-50 bg-white w-full border p-2">
                   <ul>
                     {result.map((item, index) => (<Link href={`post/${item.slug}`} key={index}>
                       <li key={index} className="py-2 border-b">
