@@ -32,11 +32,20 @@ export const metadata = {
     title: 'XBlog - Where Your Voice Matters',
     description: 'Join XBlog to share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers.',
     url: 'https://www.xblog.co.in',
+    // images: [
+    //   {
+    //     url: '\opengraph-image.jpg', // Ensure this path is correct relative to the public directory
+    //     width: 1200, 
+    //     height: 630, 
+    //     alt: 'XBlog - Share Your Voice',
+    //   },
+    // ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'XBlog - Where Your Voice Matters',
     description: 'Share your thoughts, explore diverse topics, and connect with a community of passionate writers and readers on XBlog.',
+    // image: '/opengraph-image.jpg', // Add this line to reference the image for Twitter as well
   },
   robots: {
     index: true,
@@ -46,6 +55,7 @@ export const metadata = {
     'max-video-preview': '-1',
   },
 };
+
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession();
