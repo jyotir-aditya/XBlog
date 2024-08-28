@@ -19,9 +19,14 @@ export async function generateMetadata({ params }) {
     openGraph: {
       images: [
         {
-          url: data.image,
+          url: data.picture,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: data.description,
     },
   };
 }
