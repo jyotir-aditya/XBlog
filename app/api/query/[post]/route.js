@@ -21,7 +21,7 @@ export async function GET(request, { params }) {
       const data = await client.query("SELECT u.id AS user_id, u.name, u.email, u.image,p.id AS post_id, p.title, p.picture, p.description, p.content, p.tags,p.category_id, p.created_at, p.slug FROM xusers u INNER JOIN posts p ON u.id = p.user_id WHERE p.slug = $1", [params.post]);
       // console.log(data.rows[0]);
       if(data.rows[0]==undefined){
-        return new Response("Not found", { status: 500 });
+        return new Response("Not found", { status: 404 });
       }
       return new Response(JSON.stringify(data.rows[0]), {
         headers: {

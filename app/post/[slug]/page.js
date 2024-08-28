@@ -6,12 +6,17 @@ import ContentTiptap from "@/components/subComponents/ContentTiptap";
 // import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export async function generateMetadata({ params }) {
   const slug = params.slug;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${apiUrl}/api/query/${slug}`);
+  console.log(await res.status);
+  if (await res.status === 404){
+    notFound();
+  }
   const data = await res.json();
   return {
     title: data.title,
@@ -67,16 +72,21 @@ async function getData(slug) {
   const res = await fetch(`${apiUrl}/api/query/${slug}`, {
     next: { revalidate: 3600 },
   });
+  console.log(await res.status)
+
 
   async function follow() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   }
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
-
+  
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
+    if (res.status === 404) {
+      notFound();
+    } else {
+      throw new Error("Failed to fetch data");
+    }
   }
 
   return res.json();
