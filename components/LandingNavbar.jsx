@@ -114,11 +114,11 @@ const Header = () => {
     { name: "Sign in", onClick: () => signIn("google") },
     {
       name: "Write",
-      onClick: () => signIn("google", { callbackUrl: "/profile" }),
+      onClick: () => signIn("google", { callbackUrl: "/newpost" }),
     },
     {
       name: "About Us",
-      onClick: () => signIn("google", { callbackUrl: "/profile" }),
+      onClick: () => signIn("google", { callbackUrl: "/" }),
     },
     { name: "Get Started", onClick: () => signIn("google") },
   ];
