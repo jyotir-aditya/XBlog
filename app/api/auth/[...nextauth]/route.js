@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { cookies } from "next/headers";
 import PostgresAdapter from "@auth/pg-adapter";
-import { db } from '@vercel/postgres';
+import { db } from "@vercel/postgres";
 
 // const db = new Pool({
 //   host: process.env.DATABASE_HOST,
@@ -14,6 +14,35 @@ import { db } from '@vercel/postgres';
 //   idleTimeoutMillis: 30000,
 //   connectionTimeoutMillis: 2000,
 // });
+
+const reservedUrls = ["legal","api","get_premium","newpost","post","posts","search","settings"]; // Add more reserved URLs as needed
+
+const generateUniqueUsername = async (baseUsername) => {
+  const client = await db.connect();
+  try {
+    let username = baseUsername;
+    let usernameExists = true;
+    let counter = 1;
+
+    // Check if the username exists or is a reserved URL
+    while (usernameExists || reservedUrls.includes(username.toLowerCase())) {
+      const res = await client.query(
+        "SELECT EXISTS(SELECT 1 FROM xusers WHERE username = $1)",
+        [username]
+      );
+      usernameExists = res.rows[0].exists;
+
+      if (usernameExists || reservedUrls.includes(username.toLowerCase())) {
+        username = `${baseUsername}${counter}`;
+        counter++;
+      }
+    }
+
+    return username;
+  } finally {
+    client.release();
+  }
+};
 
 const auth = NextAuth({
   adapter: PostgresAdapter(db),
@@ -31,9 +60,12 @@ const auth = NextAuth({
     async session({ session }) {
       const client = await db.connect();
       try {
-        const res = await client.query("SELECT * FROM xusers WHERE email = $1", [session.user.email]);
+        const res = await client.query(
+          "SELECT * FROM xusers WHERE email = $1",
+          [session.user.email]
+        );
         session.user.id = res.rows[0].id.toString();
-        session.user.username=res.rows[0].username.toString();
+        session.user.username = res.rows[0].username.toString();
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -51,10 +83,13 @@ const auth = NextAuth({
 
         if (!userExists.rows[0].exists) {
           const name = user.name;
-          const username = user.email.substring(0, user.email.indexOf("@"));
+          let username = user.email.substring(0, user.email.indexOf("@"));
           const email = user.email;
           const bio = "This is your bio you can personalize it.";
           const image = user.image;
+
+          // Ensure username is unique and not a reserved URL
+          username = await generateUniqueUsername(username);
 
           await client.query(
             "INSERT INTO xusers (name, username, email, bio, image) VALUES ($1, $2, $3, $4, $5)",
@@ -63,7 +98,10 @@ const auth = NextAuth({
         }
         return true;
       } catch (error) {
-        console.error("Error checking if user exists or inserting user:", error);
+        console.error(
+          "Error checking if user exists or inserting user:",
+          error
+        );
         return false;
       } finally {
         client.release();

@@ -28,9 +28,9 @@ const TabBar = () => {
   return (
     <div className="w-[100vw] bg-white h-[8vh] bottom-0 fixed z-50">
       <div className="Structure w-full h-full flex justify-between items-center px-4">
-        <Link href={`/${status === "authenticated" ? session.user.username : ""}`}>
+        <Link href={`/${status === "authenticated" ? session.user.username : "null"}`}>
           <div>
-            {isActive(`/${status === "authenticated" ? session.user.username : ""}`) ? (
+            {isActive(`/${status === "authenticated" ? session.user.username : "null"}`) ? (
               <UserIcon className="w-[4vh] h-[4vh] text-gray-800" />
             ) : (
               <UserIconOutline className="w-[4vh] h-[4vh] text-gray-800" />

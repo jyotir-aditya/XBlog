@@ -25,6 +25,7 @@ const roboto_slab = Roboto_Slab({
 })
 
 export const metadata = {
+  metadataBase: new URL('https://xblog.co.in'),
   title: { default: 'XBlog', template: "%s - XBlog" },
   description: 'XBlog is a vibrant community where you can share your thoughts, explore diverse topics, and connect with like-minded individuals. Whether you want to read insightful content, write your own blog posts, or engage in meaningful discussions, XBlog offers a platform for your voice to be heard.',
   keywords: ["XBlog", "Blogging Platform", "Share Your Voice", "Write and Publish", "Community of Writers", "Inspiration", "Creative Writing"],

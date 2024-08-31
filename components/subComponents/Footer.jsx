@@ -11,6 +11,7 @@ const Footer = () => {
           <Link href={"/legal/cookie"}><div className="hover:underline">Cookie Policy</div></Link>
           {/* <div className="hover:underline">Accessibility</div> */}
           <Link href={"/legal/ads&promotion"}><div className="hover:underline">Ads info</div></Link>
+          <Link href={"/posts/all"}><div className="hover:underline">Posts</div></Link>
           <div className="cursor-default">© 2024 X Blog.</div>
         </div>
       </div>

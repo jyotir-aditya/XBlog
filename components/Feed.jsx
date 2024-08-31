@@ -3,7 +3,6 @@ import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SkeletonCard from "./subComponents/SkeletonCard";
-import Profile from "./Profile";
 
 // Import the SkeletonCard component
 
@@ -56,7 +55,7 @@ const Feed = ({ selectedCategory }) => {
         allPosts.map((post, index) => (
           <div
             key={index}
-            className="Card rounded-md border shadow-md bottom-2 mx-4 sm:mx-0 sm:w-[50vw] mt-[10px]  sm:mt-[2vw] h-fit p-[1vw] backdrop-blur-md "
+            className="Card rounded-md border shadow-md bottom-2 mx-4 p-2 sm:mx-0 sm:w-[50vw] mt-[10px]  sm:mt-[2vw] h-fit sm:p-[1vw] backdrop-blur-md "
           >
             <div className="PostTextandPicture overflow-hidden   w-full">
               <Link href={`${post.username}`} >

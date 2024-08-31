@@ -6,8 +6,6 @@ import RightSection from "./RightSection";
 import Search from "./Search";
 
 const UserProfile = ({ username , data }) => {
-  // const [Profile, setProfile] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
   const [deviceType, setdeviceType] = useState("");
   useEffect(() => {
     function checkDevice(){
@@ -21,27 +19,9 @@ const UserProfile = ({ username , data }) => {
   setdeviceType(checkDevice());
   }, [])
   
-  
-
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await fetch(`/api/query/profile/${username}`);
-  //       const profile = await response.json();
-  //       setProfile(profile);
-  //     } catch (error) {
-  //       console.error("Error fetching profile:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchProfile();
-  // }, []);
 
   return (
-    <div className="sm:ml-[10vw] ml-[5vw] mr-">
-      {/* {isLoading && <div className="w-[50vw] h-[100vh]">Loading</div>} */}
+    <div className="sm:ml-[10vw] ml-[5vw]">
       {data && (
         <div className="flex">
           <div className="OutertStructure w-[100vw] sm:w-[50vw] mt-[10vh] min-h-[100vh]">
