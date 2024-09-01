@@ -15,14 +15,14 @@ const Landing = () => {
           <div className="sm:mt-[18vh] flex flex-col justify-center  mt-[15vh] ml-[5vw]">
             <div className="Heading sm:text-[9vw] text-5xl font-slab tracking-tighter  sm:tracking-tight leading-[3rem] sm:leading-[8.5vw]">
               {/* <h1>Embrace </h1> */}
-              <motion.h1
+              <motion.div
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
                 transition={{ ease: [0.65, 0, 0.35, 1], delay: 0.1 }}
                 // className=" uppercase text-[8vw] leading-[7vw] tracking-tighter font-bold"
               >
                 Embrace
-              </motion.h1>
+              </motion.div>
               {/* <h1>Extraordinary </h1> */}
               <div className="flex overflow-hidden pb-2 sm:pb-6 ">
                 {[
@@ -41,7 +41,7 @@ const Landing = () => {
                   "y",
                 ].map((item, index) => {
                   return (
-                    <motion.h1
+                    <motion.div
                       key={index}
                       initial={{ y: "120%" }}
                       animate={{ y: 0 }}
@@ -52,21 +52,21 @@ const Landing = () => {
                       //  className=" leading-[7vw] "
                     >
                       {item}
-                    </motion.h1>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
             <div className="sm:text-[2vw] text-xl font-robo tracking-tighter mt-[2vh] mr-[5vw] sm:mt-[2vh]">
               <div className="Masker flex overflow-hidden">
-                <motion.h1
+                <motion.p
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   transition={{ ease: [0.65, 0, 0.35, 1], delay: " 1.6" }}
                   // className="uppercase text-[4vw] leading-[7vw] tracking-tighter font-bold"
                 >
                   Join a Community of Curious Minds and Passionate Thinkers.
-                </motion.h1>
+                </motion.p>
               </div>
               {/* <p>Join a Community of Curious Minds and Passionate Thinkers.</p> */}
             </div>
