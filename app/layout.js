@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
 import TabBar from "@/components/TabBar";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -67,19 +68,6 @@ export default async function RootLayout({ children }) {
     <SessionWraper>
       <html lang="en">
         <head>
-          {/* <!-- Google tag (gtag.js) --> */}
-          <Script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-RCZQKFL2LS"
-          ></Script>
-          <Script id="google-analytics">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-RCZQKFL2LS');
-            `}
-          </Script>
           <Script
             src="https://checkout.razorpay.com/v1/checkout.js"
             strategy="lazyOnload"
@@ -95,6 +83,7 @@ export default async function RootLayout({ children }) {
               <TabBar />
             </div>
           )}
+          <GoogleAnalytics gaId="G-RCZQKFL2LS" />
         </body>
       </html>
     </SessionWraper>
