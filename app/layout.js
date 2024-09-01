@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
 import TabBar from "@/components/TabBar";
 import Script from "next/script";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -72,7 +72,9 @@ export default async function RootLayout({ children }) {
             src="https://checkout.razorpay.com/v1/checkout.js"
             strategy="lazyOnload"
           />
+          <GoogleAnalytics gaId="G-RCZQKFL2LS" />
         </head>
+
         <body
           className={`${roboto_slab.variable} ${roboto_condensed.variable} ${roboto.variable}`}
         >
@@ -83,7 +85,6 @@ export default async function RootLayout({ children }) {
               <TabBar />
             </div>
           )}
-          <GoogleAnalytics gaId="G-RCZQKFL2LS" />
         </body>
       </html>
     </SessionWraper>
