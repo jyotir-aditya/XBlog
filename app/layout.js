@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth/next";
 import MainNavbar from "@/components/MainNavbar";
 import TabBar from "@/components/TabBar";
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const roboto = Roboto({
   subsets: ["latin"],
