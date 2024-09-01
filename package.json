@@ -33,6 +33,7 @@
     "react-dom": "^18",
     "react-editor-js": "^2.1.0",
     "react-select": "^5.8.0",
+    "react-web-share": "^2.0.2",
     "use-debounce": "^10.0.1"
   },
   "devDependencies": {

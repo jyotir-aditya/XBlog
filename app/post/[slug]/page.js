@@ -1,5 +1,7 @@
 import Follow from "@/components/Follow";
 import NoOfViews from "@/components/Post/NoOfViews";
+import PostComment from "@/components/Post/PostComment";
+import SharePost from "@/components/Post/SharePost";
 import TopLike from "@/components/Post/TopLike";
 import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
@@ -14,7 +16,7 @@ export async function generateMetadata({ params }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${apiUrl}/api/query/${slug}`);
   console.log(await res.status);
-  if (await res.status === 404){
+  if ((await res.status) === 404) {
     notFound();
   }
   const data = await res.json();
@@ -29,7 +31,7 @@ export async function generateMetadata({ params }) {
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: data.title,
       description: data.description,
     },
@@ -72,15 +74,14 @@ async function getData(slug) {
   const res = await fetch(`${apiUrl}/api/query/${slug}`, {
     next: { revalidate: 3600 },
   });
-  console.log(await res.status)
-
+  // console.log(await res.status);
 
   async function follow() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   }
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
-  
+
   if (!res.ok) {
     if (res.status === 404) {
       notFound();
@@ -94,7 +95,8 @@ async function getData(slug) {
 
 const page = async ({ params }) => {
   const data = await getData(params.slug);
-  console.log(data);
+  // console.log(data);
+  const baseurl = process.env.NEXT_MAIN_URL;
   return (
     <div className="w-full flex justify-center">
       <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
@@ -180,7 +182,16 @@ const page = async ({ params }) => {
         {/* <div>{data.user_id}</div> */}
       </div>
       <div className="hidden sm:block mt-[300px]">
-        <TopLike postId={data.post_id} />
+        <div className="pt-1 px-2 border-y-2 border-r-2 flex flex-col gap-4 border-gray-300 rounded-tr-md rounded-br-md h-fit w-fit">
+          <TopLike postId={data.post_id} />
+          <SharePost
+            title={data.title}
+            text={data.description}
+            baseurl={baseurl}
+            postId={data.post_id}
+          />
+          <PostComment />
+        </div>
       </div>
     </div>
   );

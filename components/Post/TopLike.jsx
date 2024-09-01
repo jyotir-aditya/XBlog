@@ -91,7 +91,7 @@ const TopLike = ({ postId }) => {
 
   return (
     <div>
-      <div className="pt-1 px-2 border-y-2 border-r-2 flex flex-col border-gray-300 rounded-tr-md rounded-br-md h-fit w-fit">
+      
         <button className="" onClick={toggleLike}>
           {liked ? (
             <HeartIconSolid className="w-[25px] h-[25px] text-red-400" />
@@ -106,7 +106,7 @@ const TopLike = ({ postId }) => {
             <div className="bg-gray-300 animate-pulse rounded-md h-[10px] w-full"></div>
           )}
         </div>
-      </div>
+      
     </div>
   );
 };
