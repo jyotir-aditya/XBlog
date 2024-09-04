@@ -1,8 +1,9 @@
 import Follow from "@/components/Follow";
+
 import NoOfViews from "@/components/Post/NoOfViews";
-import PostComment from "@/components/Post/PostComment";
-import SharePost from "@/components/Post/SharePost";
-import TopLike from "@/components/Post/TopLike";
+
+import SideControls from "@/components/Post/SideControls";
+
 import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
 // import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
@@ -97,9 +98,10 @@ const page = async ({ params }) => {
   const data = await getData(params.slug);
   // console.log(data);
   const baseurl = process.env.NEXT_MAIN_URL;
+  const sideControls = (<SideControls data={data} baseurl={baseurl} />);
   return (
     <div className="w-full flex justify-center">
-      <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[55px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
+      <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[60px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
         <div className="Header flex flex-col gap-4">
           <div className="Heading">
             <h1 className=" text-4xl sm:text-[3vw] tracking-tighter sm:leading-[3vw] font-bold ">
@@ -113,40 +115,46 @@ const page = async ({ params }) => {
             </h2>
           </div>
         </div>
-        <div className="UserInfo">
-          <div className="flex p-3 rounded-xl sm:rounded-3xl border sm:shadow-md">
-            <Image
-              priority={true}
-              src={data.image}
-              width={50}
-              alt="profile"
-              height={50}
-              className="rounded-full"
-            />
-            <div className="Infotext  w-full ml-5 flex flex-col">
-              <div className="flex  justify-between gap-8">
-                <div className="font-robo font-medium">{data.name}</div>
-                <div className="text-gray-400  flex text-sm sm:text-base font-robo  sm:flex align-middle content-center items-center gap-1 sm:gap-3">
-                  <div className="hidden sm:flex items-center gap-3">
-                    Publised on{" "}
-                    <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>
+        <div className="Structure">
+          <div className="UserInfo">
+            <div className="flex p-3 rounded-xl sm:rounded-3xl border sm:shadow-md">
+              <Image
+                priority={true}
+                src={data.image}
+                width={50}
+                alt="profile"
+                height={50}
+                className="rounded-full"
+              />
+              <div className="Infotext  w-full ml-5 flex flex-col">
+                <div className="flex  justify-between gap-8">
+                  <div className="font-robo font-medium">{data.name}</div>
+                  <div className="text-gray-400  flex text-sm sm:text-base font-robo  sm:flex align-middle content-center items-center gap-1 sm:gap-3">
+                    <div className="hidden sm:flex items-center gap-3">
+                      Publised on{" "}
+                      <div className="bg-gray-400 rounded-full h-[5px] w-[5px]"></div>
+                    </div>
+                    <ClockIcon className="w-[15px] h-[15px] sm:hidden block" />
+                    {formatDate(data.created_at)}
                   </div>
-                  <ClockIcon className="w-[15px] h-[15px] sm:hidden block" />
-                  {formatDate(data.created_at)}
                 </div>
+                <div className="flex justify-between">
+                  <div className="Downelements w-fit ">
+                    <Follow id={data.user_id} />
+                  </div>
+                  <div></div>
+                  <div className="flex gap-4 items-center sm:text-sm text-base ">
+                    {/* <NoOfFollowers id={data.user_id} /> */}
+                    <NoOfViews postId={data.post_id} />
+                  </div>
+                </div>
+                <PostView postId={data.post_id} />
               </div>
-              <div className="flex justify-between">
-                <div className="Downelements w-fit ">
-                  <Follow id={data.user_id} />
-                </div>
-                <div></div>
-                <div className="flex gap-4 items-center sm:text-sm text-base ">
-                  {/* <NoOfFollowers id={data.user_id} /> */}
-                  <NoOfViews postId={data.post_id} />
-                </div>
-              </div>
-              <PostView postId={data.post_id} />
             </div>
+          </div>
+          {/* mobile view control */}
+          <div className="sm:hidden w-full h-fit rounded-xl px-2 ">
+            {sideControls}
           </div>
         </div>
         <div className="Image mt-[2vh]">
@@ -169,29 +177,20 @@ const page = async ({ params }) => {
         <div className="Tags mt-[2vw]">
           <div className="flex gap-6">
             {data.tags.slice(0, 4).map((tag, index) => (
-              <div
+              <button
                 key={index}
                 className="py-[4px] text-[11px] sm:text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit h-fit rounded-full"
               >
                 {tag}
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
         {/* <div>{data.user_id}</div> */}
       </div>
-      <div className="hidden sm:block mt-[300px]">
-        <div className="pt-1 px-2 border-y-2 border-r-2 flex flex-col gap-4 border-gray-300 rounded-tr-md rounded-br-md h-fit w-fit">
-          <TopLike postId={data.post_id} />
-          <SharePost
-            title={data.title}
-            text={data.description}
-            baseurl={baseurl}
-            postId={data.post_id}
-          />
-          <PostComment />
-        </div>
+      <div className="hidden sm:block mt-[190px]">
+        {sideControls}
       </div>
     </div>
   );

@@ -216,14 +216,14 @@ const Header = () => {
         >
           {links.map((item, index) => {
             return (
-              <div
+              <button
                 onClick={item.onClick}
-                className="Links w-fit font-medium cursor-pointer  rounded-lg "
+                className="Links w-fit font-medium cursor-pointer  rounded-lg text-[3vh] font-robo text-center"
                 key={index}
               >
-                <p className="text-[3vh] font-robo text-center ">{item.name}</p>
-                {/* <div className="border-[1px] border-green-700 " /> */}
-              </div>
+                {item.name}
+                {/* <button className="border-[1px] border-green-700 " /> */}
+              </button>
             );
           })}
         </div>

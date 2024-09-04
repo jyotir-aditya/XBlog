@@ -75,7 +75,7 @@ const TopLike = ({ postId }) => {
         setIsSyncing(false);
       }
     }
-  }, 500);
+  }, 1000);
 
   const toggleLike = () => {
     if (status === "authenticated" && !isSyncing) {
@@ -90,7 +90,7 @@ const TopLike = ({ postId }) => {
   };
 
   return (
-    <div>
+    <div className="flex sm:block gap-2 items-center">
       
         <button className="" onClick={toggleLike}>
           {liked ? (
@@ -103,7 +103,7 @@ const TopLike = ({ postId }) => {
           {noOfLikes !== null ? (
             noOfLikes
           ) : (
-            <div className="bg-gray-300 animate-pulse rounded-md h-[10px] w-full"></div>
+            <div className="bg-gray-300 animate-pulse rounded-md h-[10px] w-[20px]"></div>
           )}
         </div>
       

@@ -58,27 +58,27 @@ const SharePost = ({ title, text, baseurl, postId }) => {
     }
   };
   return (
-    <div>
-      <RWebShare
-        data={{
-          text: text,
-          url: url,
-          title: title,
-        }}
-        onClick={clickHandler}
-      >
-        <button disabled={status == "loading" ? true : false}>
-          <ShareIcon className="w-[23px] h-[23px] text-gray-400" />
-          <div className="text-[13px] w-full flex justify-center text-gray-400 mt-1">
+    <RWebShare
+      data={{
+        text: text,
+        url: url,
+        title: title,
+      }}
+      onClick={clickHandler}
+    >
+      <button className="" disabled={status == "loading" ? true : false}>
+        <div className="flex items-center sm:block gap-2">
+          <ShareIcon className="sm:w-[23px] sm:h-[23px] h-[40px] w-[40px] text-gray-400" />
+          <div className="text-[13px] w-full flex items-center mb-2 justify-center text-gray-400 mt-1">
             {totalShares !== null ? (
               totalShares
             ) : (
-              <div className="bg-gray-300 animate-pulse rounded-md h-[10px] w-full"></div>
+              <div className="bg-gray-300 animate-pulse rounded-md h-[10px] w-[20px]"></div>
             )}
           </div>
-        </button>
-      </RWebShare>
-    </div>
+        </div>
+      </button>
+    </RWebShare>
   );
 };
 

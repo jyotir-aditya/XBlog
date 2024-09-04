@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import FollowSkelton from"./subComponents/FollowSkeleton";
+import FollowSkelton from "./subComponents/FollowSkeleton";
 import Link from "next/link";
 
 const Follow = ({ id }) => {
@@ -77,19 +77,21 @@ const Follow = ({ id }) => {
   }
 
   if (status === "authenticated" && session.user.id == id) {
-    return <Link href={`/${session.user.username}`}><div className="text-gray-500 hover:text-black font-robo">Profile</div></Link>;
+    return (
+      <Link href={`/${session.user.username}`}>
+        <div className="text-gray-500 hover:text-black font-robo">Profile</div>
+      </Link>
+    );
   }
 
   if (status === "authenticated") {
     return (
-      <div>
-        <div
-          onClick={handleFollowClick}
-          className={`font-robo text-gray-500 hover:text-black cursor-pointer`}
-        >
-          {isFollowed ? "Following" : "Follow"}
-        </div>
-      </div>
+      <button
+        onClick={handleFollowClick}
+        className={`font-robo text-gray-500 hover:text-black cursor-pointer`}
+      >
+        {isFollowed ? "Following" : "Follow"}
+      </button>
     );
   }
 
