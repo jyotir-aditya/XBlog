@@ -7,30 +7,30 @@ import { useSession } from "next-auth/react";
 
 //limit 5 shares per authenticated user
 
-const SharePost = ({ title, text, baseurl, postId }) => {
+const SharePost = ({ title, text, baseurl, postId ,totalShares, setTotalShares }) => {
   const { data: session, status } = useSession();
-  const [totalShares, setTotalShares] = useState(null);
+  // const [totalShares, setTotalShares] = useState(null);
   const pathname = usePathname();
   const url = baseurl + pathname;
-  const fetchShareCount = async () => {
-    try {
-      const response = await fetch(
-        `/api/post/query/sharecount?postId=${postId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        setTotalShares(data);
-      } else {
-        console.error(data);
-      }
-    } catch (error) {
-      console.error("Error fetching share count:", error);
-    }
-  };
-  useEffect(() => {
-    fetchShareCount();
-  }, [postId]);
+  // const fetchShareCount = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `/api/post/query/sharecount?postId=${postId}`
+  //     );
+  //     const data = await response.json();
+  //     console.log(data);
+  //     if (response.ok) {
+  //       setTotalShares(data);
+  //     } else {
+  //       console.error(data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching share count:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchShareCount();
+  // }, [postId]);
   const clickHandler = async () => {
     if (status === "authenticated") {
       let userId = null;
@@ -48,7 +48,7 @@ const SharePost = ({ title, text, baseurl, postId }) => {
         const data = await response.text();
         if (response.ok) {
           console.log(data);
-          fetchShareCount();
+          setTotalShares(prev => prev + 1);
         } else {
           console.error(data);
         }

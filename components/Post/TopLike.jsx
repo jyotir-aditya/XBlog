@@ -5,10 +5,9 @@ import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { useDebouncedCallback } from "use-debounce";
 
-const TopLike = ({ postId }) => {
+const TopLike = ({ postId , noOfLikes, setNoOfLikes }) => {
   const { data: session, status } = useSession();
   const [liked, setLiked] = useState(false);
-  const [noOfLikes, setNoOfLikes] = useState(null);
   const initialLikedState = useRef(false); // Track the initial liked state
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -29,18 +28,18 @@ const TopLike = ({ postId }) => {
       }
     };
 
-    const fetchNoOfLikes = async () => {
-      try {
-        const response = await fetch(`/api/query/noOfLikes?postId=${postId}`);
-        const data = await response.json();
-        setNoOfLikes(parseInt(data, 10));
-      } catch (error) {
-        console.error("Error fetching number of likes:", error);
-      }
-    };
+    // const fetchNoOfLikes = async () => {
+    //   try {
+    //     const response = await fetch(`/api/query/noOfLikes?postId=${postId}`);
+    //     const data = await response.json();
+    //     setNoOfLikes(parseInt(data, 10));
+    //   } catch (error) {
+    //     console.error("Error fetching number of likes:", error);
+    //   }
+    // };
 
     fetchLikeStatus();
-    fetchNoOfLikes();
+    // fetchNoOfLikes();
   }, [postId, status, session]);
 
   const debouncedApiCall = useDebouncedCallback(async () => {

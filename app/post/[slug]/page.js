@@ -1,9 +1,6 @@
 import Follow from "@/components/Follow";
-
 import NoOfViews from "@/components/Post/NoOfViews";
-
 import SideControls from "@/components/Post/SideControls";
-
 import PostView from "@/components/PostView";
 import ContentTiptap from "@/components/subComponents/ContentTiptap";
 // import NoOfFollowers from "@/components/subComponents/NoOfFollowrs";
@@ -72,9 +69,7 @@ function formatDate(timestamp) {
 // using the `params` returned by `generateStaticParams`
 async function getData(slug) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/query/${slug}`, {
-    next: { revalidate: 3600 },
-  });
+  const res = await fetch(`${apiUrl}/api/query/${slug}`, {cache:"no-store"});
   // console.log(await res.status);
 
   async function follow() {
@@ -98,7 +93,7 @@ const page = async ({ params }) => {
   const data = await getData(params.slug);
   // console.log(data);
   const baseurl = process.env.NEXT_MAIN_URL;
-  const sideControls = (<SideControls data={data} baseurl={baseurl} />);
+  const sideControls = <SideControls data={data} baseurl={baseurl} />;
   return (
     <div className="w-full flex justify-center">
       <div className="Main w-full mx-[1vw] sm:mx-0 sm:max-w-[50vw] mt-[10vh] mb-[60px] flex flex-col gap-6 sm:border-2 p-[2vw] rounded-xl">
@@ -145,7 +140,7 @@ const page = async ({ params }) => {
                   <div></div>
                   <div className="flex gap-4 items-center sm:text-sm text-base ">
                     {/* <NoOfFollowers id={data.user_id} /> */}
-                    <NoOfViews postId={data.post_id} />
+                    <NoOfViews views={data.views_count} />
                   </div>
                 </div>
                 <PostView postId={data.post_id} />
@@ -189,9 +184,7 @@ const page = async ({ params }) => {
 
         {/* <div>{data.user_id}</div> */}
       </div>
-      <div className="hidden sm:block mt-[190px]">
-        {sideControls}
-      </div>
+      <div className="hidden sm:block mt-[190px]">{sideControls}</div>
     </div>
   );
 };
