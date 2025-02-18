@@ -169,12 +169,12 @@ const page = async ({ params }) => {
           </p> */}
           <ContentTiptap content={data.content} />
         </div>
-        <div className="Tags mt-[2vw]">
-          <div className="flex gap-6">
+        <div className="Tags mt-[2vw] w-full overflow-hidden pb-2">
+          <div className="sm:flex grid grid-cols-3 gap-4 sm:flex-shrink sm:gap-6">
             {data.tags.slice(0, 4).map((tag, index) => (
               <button
                 key={index}
-                className="py-[4px] text-[11px] sm:text-[1.4vw] font-robo px-[20px] bg-fuchsia-200 w-fit h-fit rounded-full"
+                className="py-[4px] text-[8px] sm:text-[1vw] font-robo px-[20px] bg-fuchsia-200 w-fit h-fit rounded-full"
               >
                 {tag}
               </button>

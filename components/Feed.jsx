@@ -112,7 +112,7 @@ const Feed = ({ selectedCategory }) => {
                         ) => (
                           <div
                             key={index}
-                            className="py-[3px] text-sm font-robo px-[8px] bg-gray-100 w-fit rounded-2xl"
+                            className="py-[3px] text-xs font-robo px-[8px] bg-gray-100 w-fit rounded-2xl"
                           >
                             {tag}
                           </div>
