@@ -50,9 +50,9 @@ export async function generateMetadata({ params }) {
       images: [data.picture],
       creator: `@${data.name.replace(/\s+/g, '')}`,
     },
-    alternates: {
-      canonical: `https://xblog.vercel.app/post/${slug}`,
-    }
+    // alternates: {
+    //   canonical: `https://xblog.vercel.app/post/${slug}`,
+    // }
   };
 }
 
