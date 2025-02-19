@@ -13,26 +13,46 @@ export async function generateMetadata({ params }) {
   const slug = params.slug;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${apiUrl}/api/query/${slug}`);
-  console.log(await res.status);
+  
   if ((await res.status) === 404) {
     notFound();
   }
+  
   const data = await res.json();
+
   return {
-    title: data.title,
+    title: `${data.title} | Xblog`,
     description: data.description,
+    keywords: data.tags.join(', '),
+    authors: [{ name: data.name }],
+    creator: data.name,
+    publisher: 'Xblog',
     openGraph: {
+      title: data.title,
+      description: data.description,
+      type: 'article',
+      publishedTime: data.created_at,
+      authors: [data.name],
       images: [
         {
           url: data.picture,
+          width: 1200,
+          height: 630,
+          alt: data.title,
         },
       ],
+      tags: data.tags,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: data.title,
       description: data.description,
+      images: [data.picture],
+      creator: `@${data.name.replace(/\s+/g, '')}`,
     },
+    alternates: {
+      canonical: `https://xblog.vercel.app/post/${slug}`,
+    }
   };
 }
 

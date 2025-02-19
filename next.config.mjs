@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: '**',
-          pathname: '**',
-        },
-      ],
-      }
+  compiler: {
+    removeConsole: process.env.NEXT_PUBLIC_NODE_ENV === "production",
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+        pathname: "**",
+      },
+    ],
+  },
 };
-
 
 export default nextConfig;
